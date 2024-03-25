@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+    http:
+        image: nginx:latest
+        ports:
+            - "${HTTP_PORT:-8001}:80"
+        volumes:
+            - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./:/var/www
+        working_dir: /var/www
+        depends_on:
+            - app
+        restart: unless-stopped
+
+    app:
+        build:
+            context: ./_docker/app/
+            dockerfile: Dockerfile
+            network: "host"
+        volumes:
+            - ./:/var/www
+        env_file:
+            - .env
+        environment:
+            - "DB_CONNECTION=${DB_CONNECTION}"
+            - "DB_HOST=${DB_HOST}"
+            - "DB_PORT=${DB_PORT}"
+            - "DB_DATABASE=${DB_DATABASE}"
+            - "DB_USERNAME=${DB_USERNAME}"
+            - "DB_PASSWORD=${DB_PASSWORD}"
+        depends_on:
+            - db
+        restart: unless-stopped
+
+    db:
+        image: postgres:12
+        restart: unless-stopped
+        env_file:
+            - .env
+        ports:
+            - "${DB_PORT:-5432}:5432"
+        environment:
+            POSTGRES_DB: "${DB_DATABASE}"
+            POSTGRES_USER: "${DB_USERNAME}"
+            POSTGRES_PASSWORD: "${DB_PASSWORD}"
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+
+volumes:
+    postgres-data:
