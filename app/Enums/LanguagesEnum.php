@@ -8,7 +8,7 @@ use App\Traits\EnumToArray;
 enum LanguagesEnum: string {
     use EnumToArray;
     case En = 'ENG';
-    case Ru = 'RUG';
+    case Ru = 'RUS';
     case Pl = 'POL';
     case Ua = 'UKR';
 }

@@ -23,8 +23,10 @@ class LanguageController extends Controller
     public function addLanguage(Request $request)
     {
         $addLanguageDTO = new AddLanguageDTO(...$request->all());
+        $lang = $this->service->addLanguage($addLanguageDTO);// Response::HTTP_CREATED
         return response()->json([
-            $this->service->addLanguage($addLanguageDTO), Response::HTTP_CREATED
-        ]);
+            'language' => $lang,
+            'message' => 'Language was added successfully'
+        ], Response::HTTP_CREATED);
     }
 }
