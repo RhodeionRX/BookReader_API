@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('code', 5)->change();
             $table->timestampsTz();
         });
+
+        Schema::table('languages', function (Blueprint $table) {
+            $table->softDeletesTz();
+        });
     }
 
     /**
