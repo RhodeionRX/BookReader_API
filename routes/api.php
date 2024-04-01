@@ -12,8 +12,6 @@ Route::get('/user', function (Request $request) {
 Route::post('/books', [BookController::class, 'init']);
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);
-
-//Route::get('/languages', [LanguageController::class, 'index']);
-//Route::get('/languages/{id}', [LanguageController::class, 'show']);
-//Route::post('/languages', [LanguageController::class, 'store']);
-//Route::delete('/languages/{id}', [LanguageController::class, 'delete']);
+Route::post('/books/{id}', [BookController::class, 'add']);
+Route::put('/books/{id}', [BookController::class, 'update']);
+Route::delete('/books/{id}', [BookController::class, 'destroy']);

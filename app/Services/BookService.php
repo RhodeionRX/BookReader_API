@@ -3,7 +3,9 @@ namespace App\Services;
 
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\CreateBookDTO;
+use App\DTO\Book\DestroyBookDTO;
 use App\DTO\Book\GetOneBookDTO;
+use App\DTO\Book\UpdateBookDTO;
 use App\Models\Book;
 use App\Models\BookLocalInfo;
 
@@ -27,7 +29,6 @@ class BookService
         $localInfo->description = $dto->description;
         $localInfo->language = $dto->language;
         $localInfo->book_id = $dto->bookId;
-
         $localInfo->save();
 
         return $localInfo;
@@ -45,13 +46,27 @@ class BookService
         return $book;
     }
 
-    public function update()
+    public function update(UpdateBookDTO $dto)
     {
+        $bookLocal = BookLocalInfo::find($dto->id);
 
+        if ($dto->title !== NULL) {
+            $bookLocal->title = $dto->title;
+        }
+        if ($dto->description !== NULL) {
+            $bookLocal->description = $dto->description;
+        }
+
+        $bookLocal->save();
+
+        return $bookLocal;
     }
 
-    public function destroy()
+    public function destroy(DestroyBookDTO $dto)
     {
+        $book = Book::find($dto->id);
+        $book->delete();
 
+        return $book;
     }
 }

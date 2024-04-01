@@ -1,17 +1,11 @@
 <?php
 
-namespace App\DTO\Language;
+namespace App\DTO\Book;
 
-final class DeleteLanguageDTO
+final class DestroyBookDTO
 {
     public readonly int $id;
     public function __construct(int $id) {
         $this->id = $id;
     }
-
-    public function validate()
-    {
-
-    }
-
 }
