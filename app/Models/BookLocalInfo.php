@@ -14,17 +14,12 @@ class BookLocalInfo extends Model
     protected $fillable = [
         'title',
         'description',
-        'language_id',
+        'language',
         'book_id'
     ];
 
     public function book() : BelongsTo
     {
         return $this->belongsTo(related: Book::class, foreignKey: 'book_id');
-    }
-
-    public function language() : BelongsTo
-    {
-        return $this->belongsTo(related: Language::class, foreignKey: 'language_id');
     }
 }

@@ -10,5 +10,4 @@ enum LanguagesEnum: string {
     case En = 'ENG';
     case Ru = 'RUS';
     case Pl = 'POL';
-    case Ua = 'UKR';
 }
