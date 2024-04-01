@@ -1,7 +1,9 @@
 <?php
 namespace App\Services;
 
+use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\CreateBookDTO;
+use App\DTO\Book\GetOneBookDTO;
 use App\Models\Book;
 use App\Models\BookLocalInfo;
 
@@ -12,25 +14,35 @@ class BookService
         $book = new Book();
         $book->save();
 
-        $local = new BookLocalInfo();
-        $local->title = $dto->title;
-        $local->description = $dto->description;
-        $local->language = $dto->language;
-        $local->book_id = $book->id;
+        $addDto = new AddLocalDTO($dto->title, $dto->description, $dto->language, $book->id);
+        $this->createLocal($addDto);
 
         return $book;
     }
 
+    public function createLocal(AddLocalDTO $dto) : BookLocalInfo
+    {
+        $localInfo = new BookLocalInfo();
+        $localInfo->title = $dto->title;
+        $localInfo->description = $dto->description;
+        $localInfo->language = $dto->language;
+        $localInfo->book_id = $dto->bookId;
+
+        $localInfo->save();
+
+        return $localInfo;
+    }
+
     public function getAll()
     {
-        $books = Book::all();
-
+        $books = Book::with(['localizations'])->get();
         return $books;
     }
 
-    public function show()
+    public function getOne(GetOneBookDTO $dto)
     {
-
+        $book = Book::with('localizations')->where('id', $dto->id)->firstOrFail();
+        return $book;
     }
 
     public function update()

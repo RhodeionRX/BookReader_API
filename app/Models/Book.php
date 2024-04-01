@@ -11,7 +11,7 @@ class Book extends Model
     use HasFactory;
 
     protected $table = 'books';
-    public function locals() : HasMany
+    public function localizations() : HasMany
     {
         return $this->hasMany(related: BookLocalInfo::class, foreignKey: 'book_id');
     }

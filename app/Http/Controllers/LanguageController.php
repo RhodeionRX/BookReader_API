@@ -18,18 +18,6 @@ class LanguageController extends Controller
         $this->service = $languageService;
     }
 
-    public function index(Request $request)
-    {
-        $dto = new GetLanguagesDTO(
-            explode(',', $request->input('ids')),
-            explode(',', $request->input('codes')),
-        );
-//        $langs = $this->service->getAllLanguages($dto);
-        $idsArray = $request->collect('ids');
-
-        return response()->json($idsArray, Response::HTTP_OK);
-    }
-
     public function show(Request $request)
     {
         $dto = new GetLanguageDTO($request->route('id'));

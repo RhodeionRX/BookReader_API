@@ -11,6 +11,8 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/books', [BookController::class, 'init']);
 Route::get('/books', [BookController::class, 'index']);
+Route::get('/books/{id}', [BookController::class, 'show']);
+
 //Route::get('/languages', [LanguageController::class, 'index']);
 //Route::get('/languages/{id}', [LanguageController::class, 'show']);
 //Route::post('/languages', [LanguageController::class, 'store']);
