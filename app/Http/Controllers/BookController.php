@@ -7,6 +7,7 @@ use App\DTO\Book\CreateBookDTO;
 use App\DTO\Book\DestroyBookDTO;
 use App\DTO\Book\GetOneBookDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Http\Requests\StoreBookRequest;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class BookController extends Controller
         $this->service = $service;
     }
 
-    public function init(Request $request): JsonResponse
+    public function init(StoreBookRequest $request): JsonResponse
     {
         $dto = new CreateBookDTO(
             $request->input('title'),

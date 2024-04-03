@@ -8,9 +8,14 @@ use App\DTO\Book\GetOneBookDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\Models\Book;
 use App\Models\BookLocalInfo;
+use App\Repositories\BaseRepository;
+use App\Repositories\Book\BookRepositoryInterface;
 
 class BookService
 {
+    public function __construct(
+        protected BookRepositoryInterface $repository
+    ) {}
     public function init(CreateBookDTO $dto) : Book
     {
         $book = new Book();
