@@ -7,7 +7,11 @@ use App\DTO\Book\CreateBookDTO;
 use App\DTO\Book\DestroyBookDTO;
 use App\DTO\Book\GetOneBookDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Http\Requests\StoreBookLocalizationRequest;
 use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+use App\Models\Book;
+use App\Models\BookLocalInfo;
 use App\Services\BookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,22 +21,22 @@ class BookController extends Controller
 {
     protected $service;
 
-    public function __construct(BookService $service)
+    public function __construct(BookService $bookService)
     {
-        $this->service = $service;
+        $this->service = $bookService;
     }
 
     public function init(StoreBookRequest $request): JsonResponse
     {
-        $dto = new CreateBookDTO(
-            $request->input('title'),
-            $request->input('description', null),
-            $request->input('language')
-        );
+        $dto = CreateBookDTO::fromRequest($request);
         $book = $this->service->init($dto);
+
+        $localDto =  AddLocalDTO::fromValues($dto->title, $dto->description, $dto->language, $book->id);
+        $localization = $this->service->createLocal($localDto);
 
         return response()->json([
             'content' => $book,
+            'localization' => $localization,
             'message' => 'A new book has been successfully created'
         ], Response::HTTP_CREATED);
     }
@@ -47,48 +51,37 @@ class BookController extends Controller
 
     public function show(Request $request): JsonResponse
     {
-        $dto = new GetOneBookDTO($request->route('id'));
-        $book = $this->service->getOne($dto);
         return response()->json([
-            'content' => $book
+            'content' => $this->service->getOne(
+                $request->route('id')
+            )
         ], Response::HTTP_OK);
     }
 
-    public function add(Request $request): JsonResponse
+    public function add(StoreBookLocalizationRequest $request): JsonResponse
     {
-        $dto = new AddLocalDTO(
-            $request->input('title'),
-            $request->input('description', null),
-            $request->input('language'),
-            $request->route('id')
-        );
-        $bookLocal = $this->service->createLocal($dto);
+        $dto = AddLocalDTO::fromRequest($request);
+        $localization = $this->service->createLocal($dto);
         return response()->json([
-            'content' => $bookLocal,
+            'content' => $localization,
             'message' => 'A new localization has been added successfully'], Response::HTTP_OK);
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(UpdateBookRequest $request, int $id): JsonResponse
     {
-        $dto = new UpdateBookDTO(
-            $request->route('id'),
-            $request->input('title', null),
-            $request->input('description', null)
-        );
-        $bookLocal = $this->service->update($dto);
+        $dto = UpdateBookDTO::fromRequest($request);
+
+        $localization = $this->service->update($id, $dto);
         return response()->json([
-            'content' => $bookLocal,
-            'message' => 'The localization has been added successfully'], Response::HTTP_OK);
+            'content' => $localization,
+            'message' => 'The book information has been added successfully'], Response::HTTP_OK);
     }
 
-    public function destroy(Request $request): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse
     {
-        $dto = new DestroyBookDTO(
-            $request->route('id')
-        );
-        $bookLocal = $this->service->destroy($dto);
+        $book = $this->service->destroy($id);
         return response()->json([
-            'content' => $bookLocal,
-            'message' => 'The localization has been archived successfully'], Response::HTTP_OK);
+            'content' => $book,
+            'message' => 'The book has been archived successfully'], Response::HTTP_NO_CONTENT);
     }
 }

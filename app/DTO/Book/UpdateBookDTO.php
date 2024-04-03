@@ -2,16 +2,28 @@
 
 namespace App\DTO\Book;
 
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+
 final class UpdateBookDTO
 {
-    public readonly int $id;
-    public readonly ?string $title;
-    public readonly ?string $description;
+    public function __construct(
+        public readonly ?string $title,
+        public readonly ?string $description
+    ) {}
 
-    public function __construct(int $id, ?string $title, ?string $description)
+    public static function fromRequest(UpdateBookRequest $request)
     {
-        $this->id = $id;
-        $this->title = $title;
-        $this->description = $description;
+        return new self(
+            title: $request->validated('title'),
+            description: $request->validated('description'),
+        );
+    }
+    public static function fromValues(string $title, string|null $description)
+    {
+        return new self(
+            title: $title,
+            description: $description
+        );
     }
 }

@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('book_local_infos', function (Blueprint $table) {
             $table->id()->always();
-            $table->string('title', 100)->nullable(false)->unique(true);
-            $table->text('description');
+            $table->string('title', 100)->nullable(false);
+            $table->text('description')->nullable(true);
             $table->enum('language', LanguagesEnum::values())->nullable(false);
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->timestampsTz();

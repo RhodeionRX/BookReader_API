@@ -14,29 +14,26 @@ use App\Repositories\Book\BookRepositoryInterface;
 class BookService
 {
     public function __construct(
-        protected BookRepositoryInterface $repository
+//        protected BookRepositoryInterface $repository
     ) {}
     public function init(CreateBookDTO $dto) : Book
     {
         $book = new Book();
         $book->save();
 
-        $addDto = new AddLocalDTO($dto->title, $dto->description, $dto->language, $book->id);
-        $this->createLocal($addDto);
-
         return $book;
     }
 
     public function createLocal(AddLocalDTO $dto) : BookLocalInfo
     {
-        $localInfo = new BookLocalInfo();
-        $localInfo->title = $dto->title;
-        $localInfo->description = $dto->description;
-        $localInfo->language = $dto->language;
-        $localInfo->book_id = $dto->bookId;
-        $localInfo->save();
+        $localization = new BookLocalInfo();
+        $localization->title = $dto->title;
+        $localization->description = $dto->description;
+        $localization->language = $dto->language;
+        $localization->book_id = $dto->book_id;
+        $localization->save();
 
-        return $localInfo;
+        return $localization;
     }
 
     public function getAll()
@@ -45,33 +42,27 @@ class BookService
         return $books;
     }
 
-    public function getOne(GetOneBookDTO $dto)
+    public function getOne(int $id)
     {
-        $book = Book::with('localizations')->where('id', $dto->id)->firstOrFail();
+        $book = Book::with('localizations')->where('id', $id)->firstOrFail();
         return $book;
     }
 
-    public function update(UpdateBookDTO $dto)
+    public function update(int $id, UpdateBookDTO $dto)
     {
-        $bookLocal = BookLocalInfo::find($dto->id);
+        $localization = BookLocalInfo::findOrFail($id);
+        $localization->title = $dto->title;
+        $localization->description = $dto->description;
 
-        if ($dto->title !== NULL) {
-            $bookLocal->title = $dto->title;
-        }
-        if ($dto->description !== NULL) {
-            $bookLocal->description = $dto->description;
-        }
+        $localization->save();
 
-        $bookLocal->save();
-
-        return $bookLocal;
+        return $localization;
     }
 
-    public function destroy(DestroyBookDTO $dto)
+    public function destroy(int $id)
     {
-        $book = Book::find($dto->id);
+        $book = Book::findOrFail($id);
         $book->delete();
-
         return $book;
     }
 }

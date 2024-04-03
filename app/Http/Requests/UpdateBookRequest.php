@@ -2,24 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\LanguagesEnum;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Response;
 
-class StoreBookRequest extends FormRequest
+class UpdateBookRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
             'title' => ['required', 'min:3', 'max:100'],
-            'description' => ['sometimes'],
-            'language' => [
-                'required',
-                Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
-                ]
+            'description' => ['sometimes']
         ];
     }
 
