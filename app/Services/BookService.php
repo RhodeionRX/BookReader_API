@@ -2,26 +2,18 @@
 namespace App\Services;
 
 use App\DTO\Book\AddLocalDTO;
-use App\DTO\Book\CreateBookDTO;
-use App\DTO\Book\DestroyBookDTO;
-use App\DTO\Book\GetOneBookDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\Models\Book;
 use App\Models\BookLocalInfo;
-use App\Repositories\BaseRepository;
-use App\Repositories\Book\BookRepositoryInterface;
 
 class BookService
 {
     public function __construct(
 //        protected BookRepositoryInterface $repository
     ) {}
-    public function init(CreateBookDTO $dto) : Book
+    public function init() : Book
     {
-        $book = new Book();
-        $book->save();
-
-        return $book;
+        return Book::create();
     }
 
     public function createLocal(AddLocalDTO $dto) : BookLocalInfo
@@ -38,14 +30,12 @@ class BookService
 
     public function getAll()
     {
-        $books = Book::with(['localizations'])->get();
-        return $books;
+        return Book::with(['localizations'])->get();
     }
 
     public function getOne(int $id)
     {
-        $book = Book::with('localizations')->where('id', $id)->firstOrFail();
-        return $book;
+        return Book::with('localizations')->where('id', $id)->firstOrFail();
     }
 
     public function update(int $id, UpdateBookDTO $dto)

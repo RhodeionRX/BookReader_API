@@ -2,8 +2,7 @@
 
 namespace App\DTO\Book;
 
-use App\Http\Requests\StoreBookLocalizationRequest;
-use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\Book\StoreBookLocalizationRequest;
 
 final class AddLocalDTO
 {

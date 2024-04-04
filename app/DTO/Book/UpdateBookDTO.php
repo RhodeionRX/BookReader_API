@@ -2,8 +2,7 @@
 
 namespace App\DTO\Book;
 
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 
 final class UpdateBookDTO
 {
