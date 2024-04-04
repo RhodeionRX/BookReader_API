@@ -38,7 +38,8 @@ class BookController extends Controller
 
         return BookResource::make([
                 'book' => $book,
-                'localization' => $localization
+                'localization' => $localization,
+                'message' => 'A new book has been successfully stored'
             ]
         );
     }
@@ -59,27 +60,34 @@ class BookController extends Controller
 
     public function add(StoreBookLocalizationRequest $request): BookResource
     {
-        return BookResource::make(
-            $this->service->createLocal(
-                AddLocalDTO::fromRequest($request)
-            )
+        return BookResource::make([
+                'localization' => $this->service->createLocal(
+                    AddLocalDTO::fromRequest($request)
+                ),
+                'message' => 'A new localization has been successfully stored'
+            ]
         );
     }
 
     public function update(UpdateBookRequest $request, int $id): BookResource
     {
-        return BookResource::make(
-            $this->service->update(
-                $id,
-                UpdateBookDTO::fromRequest($request)
-            )
+        return BookResource::make([
+                'localization' => $this->service->update(
+                    $id,
+                    UpdateBookDTO::fromRequest($request)
+                ),
+                'message' => 'The localization has been successfully updated'
+            ]
+
         );
     }
 
     public function destroy(int $id): BookResource
     {
-        return BookResource::make(
-            $this->service->destroy($id)
+        return BookResource::make([
+                'book' => $this->service->destroy($id),
+                'message' => 'The localization has been successfully archived'
+            ]
         );
     }
 }
