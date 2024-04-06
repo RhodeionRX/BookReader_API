@@ -9,11 +9,11 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Regdddister any application services.
      */
     public function register(): void
     {
-//        $this->app->bind(BookRepositoryInterface::class, BookRepository::class);
+        $this->app->bind(BookRepositoryInterface::class, BookRepository::class);
     }
 
     /**

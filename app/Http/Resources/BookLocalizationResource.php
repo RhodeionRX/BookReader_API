@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\BookLocalInfo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookResource extends JsonResource
+class BookLocalizationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +14,6 @@ class BookResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'success' => true,
-            'data' => $this->collection,
-        ];
+        return parent::toArray($request);
     }
 }

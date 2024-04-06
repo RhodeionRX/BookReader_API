@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Book\AddLocalDTO;
-use App\DTO\Book\CreateBookDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Exceptions\ApiException;
 use App\Http\Requests\Book\StoreBookLocalizationRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Services\BookService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Exception;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BookController extends Controller
 {
@@ -27,7 +27,7 @@ class BookController extends Controller
     {
         $book = $this->service->init();
 
-        $localization = $this->service->createLocal(
+        $localization = $this->service->createLocalization(
             AddLocalDTO::fromValues(
                 $request->validated('title'),
                 $request->validated('description'),
@@ -39,16 +39,15 @@ class BookController extends Controller
         return BookResource::make([
                 'book' => $book,
                 'localization' => $localization,
-                'message' => 'A new book has been successfully stored'
             ]
         );
     }
 
     public function index(): BookResource
     {
-        return BookResource::make(
+        return BookResource::make([
             $this->service->getAll()
-        );
+        ]);
     }
 
     public function show(int $id): BookResource
@@ -60,34 +59,23 @@ class BookController extends Controller
 
     public function add(StoreBookLocalizationRequest $request): BookResource
     {
-        return BookResource::make([
-                'localization' => $this->service->createLocal(
-                    AddLocalDTO::fromRequest($request)
-                ),
-                'message' => 'A new localization has been successfully stored'
-            ]
+        return BookResource::make($this->service->createLocalization(
+            AddLocalDTO::fromRequest($request))
         );
     }
 
     public function update(UpdateBookRequest $request, int $id): BookResource
     {
-        return BookResource::make([
-                'localization' => $this->service->update(
-                    $id,
-                    UpdateBookDTO::fromRequest($request)
-                ),
-                'message' => 'The localization has been successfully updated'
-            ]
-
+        return BookResource::make(
+            $this->service->update(
+                $id,
+                UpdateBookDTO::fromRequest($request)
+            )
         );
     }
 
     public function destroy(int $id): BookResource
     {
-        return BookResource::make([
-                'book' => $this->service->destroy($id),
-                'message' => 'The localization has been successfully archived'
-            ]
-        );
+        return BookResource::make($this->service->destroy($id));
     }
 }

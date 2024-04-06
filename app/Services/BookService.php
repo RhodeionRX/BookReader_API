@@ -3,39 +3,45 @@ namespace App\Services;
 
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Exceptions\ApiException;
 use App\Models\Book;
 use App\Models\BookLocalInfo;
+use App\Repositories\Book\BookRepositoryInterface;
+use Illuminate\Http\Response;
+use stdClass;
 
 class BookService
 {
     public function __construct(
-//        protected BookRepositoryInterface $repository
-    ) {}
-    public function init() : Book
+        protected BookRepositoryInterface $repository
+    ) {
+
+    }
+    public function init() : stdClass
     {
-        return Book::create();
+        return $this->repository->create();
     }
 
-    public function createLocal(AddLocalDTO $dto) : BookLocalInfo
+    public function createLocalization(AddLocalDTO $dto) : stdClass
     {
-        $localization = new BookLocalInfo();
-        $localization->title = $dto->title;
-        $localization->description = $dto->description;
-        $localization->language = $dto->language;
-        $localization->book_id = $dto->book_id;
-        $localization->save();
-
-        return $localization;
+        return $this->repository->add($dto);
     }
 
     public function getAll()
     {
-        return Book::with(['localizations'])->get();
+        return $this->repository->findAll();
     }
 
     public function getOne(int $id)
     {
-        return Book::with('localizations')->where('id', $id)->firstOrFail();
+        try {
+            return $this->repository->find($id); //Book::with('localizations')->where('id', $id)->firstOrFail();
+        } catch (\Exception $e) {
+            throw ApiException::Error(
+                $e->getMessage() ?: 'Unknown error',
+                $e->getCode()?: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     public function update(int $id, UpdateBookDTO $dto)
@@ -51,8 +57,6 @@ class BookService
 
     public function destroy(int $id)
     {
-        $book = Book::findOrFail($id);
-        $book->delete();
-        return $book;
+        return $this->repository->destroy($id);
     }
 }
