@@ -8,7 +8,10 @@ use App\Exceptions\ApiException;
 use App\Http\Requests\Book\StoreBookLocalizationRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
+use App\Http\Resources\BookCollection;
+use App\Http\Resources\BookLocalizationResource;
 use App\Http\Resources\BookResource;
+use App\Models\Book;
 use App\Services\BookService;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,11 +46,11 @@ class BookController extends Controller
         );
     }
 
-    public function index(): BookResource
+    public function index(): BookCollection
     {
-        return BookResource::make([
+        return BookCollection::make(
             $this->service->getAll()
-        ]);
+        );
     }
 
     public function show(int $id): BookResource
@@ -64,9 +67,9 @@ class BookController extends Controller
         );
     }
 
-    public function update(UpdateBookRequest $request, int $id): BookResource
+    public function update(UpdateBookRequest $request, int $id): BookLocalizationResource
     {
-        return BookResource::make(
+        return BookLocalizationResource::make(
             $this->service->update(
                 $id,
                 UpdateBookDTO::fromRequest($request)

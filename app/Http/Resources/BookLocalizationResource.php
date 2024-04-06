@@ -14,6 +14,14 @@ class BookLocalizationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'bookId' => $this->book_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'language' => $this->language,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
+        ];
     }
 }

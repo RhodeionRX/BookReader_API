@@ -17,7 +17,7 @@ class BookService
     ) {
 
     }
-    public function init() : stdClass
+    public function init()
     {
         return $this->repository->create();
     }
@@ -35,24 +35,16 @@ class BookService
     public function getOne(int $id)
     {
         try {
-            return $this->repository->find($id); //Book::with('localizations')->where('id', $id)->firstOrFail();
+            return $this->repository->find($id);
         } catch (\Exception $e) {
-            throw ApiException::Error(
-                $e->getMessage() ?: 'Unknown error',
-                $e->getCode()?: Response::HTTP_INTERNAL_SERVER_ERROR
-            );
+            throw ApiException::Error($e);
         }
     }
 
     public function update(int $id, UpdateBookDTO $dto)
     {
-        $localization = BookLocalInfo::findOrFail($id);
-        $localization->title = $dto->title;
-        $localization->description = $dto->description;
-
-        $localization->save();
-
-        return $localization;
+        $localization = $this->repository->findLocalization($id);
+        return $this->repository->update($localization, $dto);
     }
 
     public function destroy(int $id)

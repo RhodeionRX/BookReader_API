@@ -12,8 +12,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiException extends Exception
 {
-    public static function Error($message, $code) : static
+    public static function Error($e) : static
     {
-        return new self($message, $code);
+        return new self(
+            $e->getMessage() ?: 'Unknown error',
+            $e->getCode() ?: Response::HTTP_INTERNAL_SERVER_ERROR
+        );
     }
 }
