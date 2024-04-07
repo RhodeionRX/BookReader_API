@@ -39,10 +39,8 @@ class BookController extends Controller
             )
         );
 
-        return BookResource::make([
-                'book' => $book,
-                'localization' => $localization,
-            ]
+        return BookResource::make(
+            $book
         );
     }
 

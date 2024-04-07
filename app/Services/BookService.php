@@ -22,7 +22,7 @@ class BookService
         return $this->repository->create();
     }
 
-    public function createLocalization(AddLocalDTO $dto) : stdClass
+    public function createLocalization(AddLocalDTO $dto)
     {
         return $this->repository->add($dto);
     }

@@ -30,7 +30,7 @@ class BookRepository implements BookRepositoryInterface
     }
     public function find(int $id)
     {
-        return Book::with('localizations')->findOrFail($id);
+        return Book::withTrashed()->with('localizations')->findOrFail($id);
     }
 
     public function findAll()
