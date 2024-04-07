@@ -4,18 +4,13 @@ namespace App\Http\Controllers;
 
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
-use App\Exceptions\ApiException;
 use App\Http\Requests\Book\StoreBookLocalizationRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
-use App\Http\Resources\BookCollection;
-use App\Http\Resources\BookLocalizationResource;
-use App\Http\Resources\BookResource;
-use App\Models\Book;
+use App\Http\Resources\Book\BookCollection;
+use App\Http\Resources\Book\BookLocalizationResource;
+use App\Http\Resources\Book\BookResource;
 use App\Services\BookService;
-use Exception;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BookController extends Controller
 {

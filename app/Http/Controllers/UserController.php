@@ -2,31 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\User\LoginUserDTO;
+use App\DTO\User\RegisterUserDTO;
+use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\RegisterUserRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Resources\User\UserAuthResource;
+use App\Services\UserService;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-    public function signUp(RegisterUserRequest $request)
+    protected $service;
+    public function __construct(UserService $service)
     {
-        $user = User::create([
-            'name' => $request->validated('name'),
-            'email' => $request->validated('email'),
-            'password' => $request->validated('password')
-        ]);
-        $token = $user->createToken('key')->plainTextToken;
+        $this->service = $service;
+    }
+    public function register(RegisterUserRequest $request)
+    {
+        $user = $this->service->register(
+            RegisterUserDTO::fromRequest($request)
+        );
 
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-
-        return response()->json($response, 201);
+        return response()->json([
+            'token' => $user->createToken('key')->plainTextToken
+        ], Response::HTTP_CREATED);
     }
 
-    public function signIn()
+    public function login(LoginUserRequest $request)
     {
+        $user = $this->service->login(
+            LoginUserDTO::fromRequest($request)
+        );
 
+        return response()->json([
+            'token' => $user->createToken('key')->plainTextToken
+        ], Response::HTTP_CREATED);
     }
 }

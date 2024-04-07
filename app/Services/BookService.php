@@ -14,9 +14,7 @@ class BookService
 {
     public function __construct(
         protected BookRepositoryInterface $repository
-    ) {
-
-    }
+    ) {}
     public function init()
     {
         return $this->repository->create();
@@ -37,7 +35,7 @@ class BookService
         try {
             return $this->repository->find($id);
         } catch (\Exception $e) {
-            throw ApiException::Error($e);
+            throw ApiException::Error($e->getMessage(), $e->getCode());
         }
     }
 

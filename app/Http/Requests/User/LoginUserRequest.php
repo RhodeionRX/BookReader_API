@@ -2,14 +2,12 @@
 
 namespace App\Http\Requests\User;
 
-use App\Enums\LanguagesEnum;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 
-class RegisterUserRequest extends FormRequest
+class LoginUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,10 +25,9 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nickname' => ['required', 'string', 'min:3', 'max:25'],
-            'login' => ['required', 'string', 'min:3', 'max:50', 'unique:users,login'],
-            'email' => ['required', 'string', 'unique:users,email'],
-            'password' => ['required', 'string', 'confirmed']
+            'login' => ['sometimes', 'string'],
+            'email' => ['sometimes', 'string'],
+            'password' => ['required', 'string']
         ];
     }
 

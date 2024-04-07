@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +24,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 // Unauthenticated
 Route::middleware('guest')->group(function () {
-    Route::post('/user/auth', [UserController::class, 'signUp']);
+    Route::post('/user/auth', [UserController::class, 'register']);
+    Route::post('/user/login', [UserController::class, 'login']);
 
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{id}', [BookController::class, 'show']);
