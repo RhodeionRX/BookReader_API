@@ -5,7 +5,7 @@
 ```bash
 cp .env.example .env
 ```
-Configure the database connection if needed in the `.env` file. 
+In the `.env` file, configure the database connection if needed. 
 
 **Notice**: The application is configured to use PostgreSQL as its Database Management System(**DBMS**). Using other **DBMS**s could potentically cause errors.
 
