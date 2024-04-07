@@ -13,7 +13,7 @@ In the `.env` file, configure the database connection if needed.
 ```bash
 docker compose up (-d)
 ```
-###### Run enter the container running PHP-server:
+###### Enter the container running PHP-server:
 ```bash
 docker exec -it bookreader_backend-app-1 bash
 ```
@@ -31,12 +31,12 @@ php artisan migrate
 ```bash
 php artisan key:generate
 ```
-**Notice**: If the application is still asking to generate key, you should restart the container:
+**Notice**: If the application is still asking to generate a key, you may restart the container:
 ```bash
 docker compose down
 docker compose up (-d)
 ```
-###### Clean cache
+###### Clearing the Cache
  ```bash
 php artisan cache:clear
 php artisan config:clear
