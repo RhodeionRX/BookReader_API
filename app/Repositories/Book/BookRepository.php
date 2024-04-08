@@ -18,8 +18,7 @@ class BookRepository implements BookRepositoryInterface
         return Book::create();
     }
 
-
-    public function add(AddLocalDTO $dto)
+    public function addLocalization(AddLocalDTO $dto)
     {
         return BookLocalInfo::create([
             'title' => $dto->title,

@@ -8,9 +8,11 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use App\Traits\ErrorsToJson;
 
 class StoreBookLocalizationRequest extends FormRequest
 {
+    use ErrorsToJson;
     public function rules(): array
     {
         return [
@@ -24,11 +26,8 @@ class StoreBookLocalizationRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
-            'errors' => $validator->errors(),
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
+        self::Respond($validator);
     }
 }

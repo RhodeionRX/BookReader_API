@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Book;
 
 use App\Enums\LanguagesEnum;
+use App\Traits\ErrorsToJson;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -11,6 +12,8 @@ use Illuminate\Validation\Rule;
 
 class StoreBookRequest extends FormRequest
 {
+    use ErrorsToJson;
+
     public function rules(): array
     {
         return [
@@ -23,11 +26,8 @@ class StoreBookRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
-        throw new HttpResponseException(response()->json([
-            'success' => false,
-            'errors' => $validator->errors(),
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
+        self::Respond($validator);
     }
 }

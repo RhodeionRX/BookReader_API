@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookLocalizationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 // Authenticated users only
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/books', [BookController::class, 'init']);
-    Route::post('/books/localization', [BookController::class, 'add']);
-    Route::put('/books/{id}', [BookController::class, 'update']);
+    Route::post('/books', [BookController::class, 'create']);
+    Route::post('/books/localization', [BookLocalizationController::class, 'add']);
+    Route::put('/books/localization/{id}', [BookLocalizationController::class, 'update']);
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
 });
 

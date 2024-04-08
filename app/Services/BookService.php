@@ -15,14 +15,14 @@ class BookService
     public function __construct(
         protected BookRepositoryInterface $repository
     ) {}
-    public function init()
+    public function create()
     {
         return $this->repository->create();
     }
 
-    public function createLocalization(AddLocalDTO $dto)
+    public function addLocalization(AddLocalDTO $dto)
     {
-        return $this->repository->add($dto);
+        return $this->repository->addLocalization($dto);
     }
 
     public function getAll()

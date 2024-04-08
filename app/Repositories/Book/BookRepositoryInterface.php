@@ -13,7 +13,7 @@ interface BookRepositoryInterface
     public function findLocalization(int $id);
     public function findAll();
     public function create();
-    public function add(AddLocalDTO $dto);
+    public function addLocalization(AddLocalDTO $dto);
     public function update(BookLocalInfo $localization, UpdateBookDTO $dto);
     public function destroy(int $id);
 }

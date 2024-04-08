@@ -14,18 +14,13 @@ use App\Services\BookService;
 
 class BookController extends Controller
 {
-    protected $service;
+    public function __construct(protected BookService $service) {}
 
-    public function __construct(BookService $bookService)
+    public function create(StoreBookRequest $request): BookResource
     {
-        $this->service = $bookService;
-    }
+        $book = $this->service->create();
 
-    public function init(StoreBookRequest $request): BookResource
-    {
-        $book = $this->service->init();
-
-        $localization = $this->service->createLocalization(
+        $localization = $this->service->addLocalization(
             AddLocalDTO::fromValues(
                 $request->validated('title'),
                 $request->validated('description'),
@@ -50,23 +45,6 @@ class BookController extends Controller
     {
         return BookResource::make(
             $this->service->getOne($id)
-        );
-    }
-
-    public function add(StoreBookLocalizationRequest $request): BookResource
-    {
-        return BookResource::make($this->service->createLocalization(
-            AddLocalDTO::fromRequest($request))
-        );
-    }
-
-    public function update(UpdateBookRequest $request, int $id): BookLocalizationResource
-    {
-        return BookLocalizationResource::make(
-            $this->service->update(
-                $id,
-                UpdateBookDTO::fromRequest($request)
-            )
         );
     }
 
