@@ -22,7 +22,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/books/localization/{id}', [BookLocalizationController::class, 'update']);
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
 
-    Route::resource('/books/images', 'BookImageController');
+//    Route::resource('/books/images', 'BookImageController');
+    Route::post('/books/images', [BookImageController::class, 'store']);
 });
 
 // Unauthenticated
@@ -32,8 +33,4 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{id}', [BookController::class, 'show']);
-
-    Route::resource('/books/images', 'BookImageController', ['only' => [
-        'index', 'show'
-    ]]);
 });

@@ -12,10 +12,14 @@ class Book extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'books';
-    protected $fillable = ['id'];
     public function localizations() : HasMany
     {
         return $this->hasMany(related: BookLocalInfo::class, foreignKey: 'book_id');
+    }
+
+    public function images() : HasMany
+    {
+        return $this->hasMany(related: BookImage::class, foreignKey: 'book_id');
     }
 
     public function translations() : HasMany

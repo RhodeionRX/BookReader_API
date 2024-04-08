@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Book;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookImageRequest;
+use App\Services\FileService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookImageController extends Controller
 {
@@ -29,29 +31,22 @@ class BookImageController extends Controller
      */
     public function store(StoreBookImageRequest $request)
     {
-        //
+        $url = (new FileService())->saveFile($request->file('image'));
+        return response()->json($url);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return response()->json($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         //
     }

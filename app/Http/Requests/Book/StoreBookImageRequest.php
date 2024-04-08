@@ -2,27 +2,26 @@
 
 namespace App\Http\Requests\Book;
 
+use App\Enums\ImageStatusEnum;
+use App\Enums\LanguagesEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBookImageRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'image' => ['required', 'image:jpg,jpeg,png'],
+            'status' => [
+                'sometimes',
+                Rule::in(array_map(fn($case) => $case->value, ImageStatusEnum::cases())),
+            ],
+            'language' => [
+                'sometimes',
+                Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
+            ],
+            'book_id' => ['sometimes', 'exists:books,id']
         ];
     }
 }

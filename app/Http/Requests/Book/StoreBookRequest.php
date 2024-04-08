@@ -13,7 +13,6 @@ use Illuminate\Validation\Rule;
 class StoreBookRequest extends FormRequest
 {
     use ErrorsToJson;
-
     public function rules(): array
     {
         return [

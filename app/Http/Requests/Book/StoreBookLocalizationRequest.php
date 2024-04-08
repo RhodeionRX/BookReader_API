@@ -22,7 +22,7 @@ class StoreBookLocalizationRequest extends FormRequest
                 'required',
                 Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
             ],
-            'book_id' => ['required']
+            'book_id' => ['required', 'exists:books,id']
         ];
     }
 
