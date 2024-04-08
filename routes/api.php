@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\BookLocalizationController;
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Book\BookController;
+use App\Http\Controllers\Book\BookImageController;
+use App\Http\Controllers\Book\BookLocalizationController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/user', function (Request $request) {
@@ -21,6 +21,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/books/localization', [BookLocalizationController::class, 'add']);
     Route::put('/books/localization/{id}', [BookLocalizationController::class, 'update']);
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
+
+    Route::resource('/books/images', 'BookImageController');
 });
 
 // Unauthenticated
@@ -30,4 +32,8 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{id}', [BookController::class, 'show']);
+
+    Route::resource('/books/images', 'BookImageController', ['only' => [
+        'index', 'show'
+    ]]);
 });

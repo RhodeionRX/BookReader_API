@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\RegisterUserRequest;
-use App\Http\Resources\User\UserAuthResource;
 use App\Services\UserService;
 use Illuminate\Http\Response;
 

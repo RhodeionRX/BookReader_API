@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Book;
 
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookLocalizationRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\Book\BookLocalizationResource;
-use App\Http\Resources\Book\BookResource;
 use App\Services\BookService;
-use Illuminate\Http\Request;
 
 class BookLocalizationController extends Controller
 {
