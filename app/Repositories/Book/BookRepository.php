@@ -77,6 +77,8 @@ class BookRepository implements BookRepositoryInterface
         return BookImage::findOrFail($id);
     }
 
+
+
     public function deleteImage(int $id)
     {
         $image = BookImage::findOrFail($id);
