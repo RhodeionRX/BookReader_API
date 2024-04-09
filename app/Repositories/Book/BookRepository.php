@@ -2,22 +2,40 @@
 
 namespace App\Repositories\Book;
 
+use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\Models\Book;
+use App\Models\BookImage;
 use App\Models\BookLocalInfo;
 use App\Repositories\BaseRepository;
 use stdClass;
 class BookRepository implements BookRepositoryInterface
 {
-    public function __construct()
-    {
-    }
+    // Books
     public function create()
     {
         return Book::create();
     }
 
+    public function find(int $id)
+    {
+        return Book::withTrashed()->with(['localizations', 'images'])->findOrFail($id);
+    }
+
+    public function findAll()
+    {
+        return Book::with(['localizations', 'images'])->get();
+    }
+
+    public function destroy(int $id)
+    {
+        $book = Book::findOrFail($id);
+        $book->delete();
+        return $book;
+    }
+
+    // Localizations
     public function addLocalization(AddLocalDTO $dto)
     {
         return BookLocalInfo::create([
@@ -26,15 +44,6 @@ class BookRepository implements BookRepositoryInterface
             'language' => $dto->language,
             'book_id' => $dto->book_id
         ]);
-    }
-    public function find(int $id)
-    {
-        return Book::withTrashed()->with('localizations')->findOrFail($id);
-    }
-
-    public function findAll()
-    {
-        return Book::with('localizations')->get();
     }
 
     public function findLocalization(int $id)
@@ -51,10 +60,27 @@ class BookRepository implements BookRepositoryInterface
         return $localization;
     }
 
-    public function destroy(int $id)
+    // Images
+    public function addImage(AddImageDTO $dto)
     {
-        $book = Book::findOrFail($id);
-        $book->delete();
-        return $book;
+        return BookImage::create([
+                'content' => $dto->content,
+                'status' => $dto->status,
+                'language'  => $dto->language,
+                'book_id' => $dto->book_id
+            ]
+        );
+    }
+
+    public function findImage(int $id)
+    {
+        return BookImage::findOrFail($id);
+    }
+
+    public function deleteImage(int $id)
+    {
+        $image = BookImage::findOrFail($id);
+        $image->delete();
+        return $image;
     }
 }

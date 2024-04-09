@@ -23,6 +23,9 @@ class BookResource extends JsonResource
             }, false),
             'localizations' => BookLocalizationResource::collection(
                 $this->whenLoaded('localizations')
+            ),
+            'images' => BookImageResource::collection(
+                $this->whenLoaded('images')
             )
         ];
     }

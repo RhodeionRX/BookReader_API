@@ -5,10 +5,15 @@ use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
-    public function saveFile($file): string
+    public static function saveFile($file): string
     {
         return Storage::url(
             Storage::disk('public')->put('test', $file)
         );
+    }
+
+    public static function deleteFile(string $file): void
+    {
+        Storage::disk('public')->delete($file);
     }
 }

@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 //    Route::resource('/books/images', 'BookImageController');
     Route::post('/books/images', [BookImageController::class, 'store']);
+    Route::delete('/books/images/{id}', [BookImageController::class, 'destroy']);
 });
 
 // Unauthenticated
@@ -33,4 +34,6 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/books', [BookController::class, 'index']);
     Route::get('/books/{id}', [BookController::class, 'show']);
+
+    Route::get('/books/images/{id}', [BookImageController::class, 'show']);
 });

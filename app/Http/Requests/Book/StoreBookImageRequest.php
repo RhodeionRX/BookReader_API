@@ -14,14 +14,14 @@ class StoreBookImageRequest extends FormRequest
         return [
             'image' => ['required', 'image:jpg,jpeg,png'],
             'status' => [
-                'sometimes',
+                'required',
                 Rule::in(array_map(fn($case) => $case->value, ImageStatusEnum::cases())),
             ],
             'language' => [
-                'sometimes',
+                'required',
                 Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
             ],
-            'book_id' => ['sometimes', 'exists:books,id']
+            'book_id' => ['required', 'exists:books,id']
         ];
     }
 }

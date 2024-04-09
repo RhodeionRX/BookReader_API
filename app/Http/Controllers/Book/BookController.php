@@ -8,12 +8,14 @@ use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
 use App\Services\BookService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     public function __construct(protected BookService $service) {}
 
-    public function create(StoreBookRequest $request): BookResource
+    public function create(StoreBookRequest $request): JsonResponse
     {
         $book = $this->service->create();
 
@@ -28,7 +30,7 @@ class BookController extends Controller
 
         return BookResource::make(
             $book
-        );
+        )->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function index(): BookCollection
@@ -45,8 +47,10 @@ class BookController extends Controller
         );
     }
 
-    public function destroy(int $id): BookResource
+    public function destroy(int $id): JsonResponse
     {
-        return BookResource::make($this->service->destroy($id));
+        return BookResource::make(
+            $this->service->destroy($id)
+        )->response()->setStatusCode(Response::HTTP_ACCEPTED);
     }
 }
