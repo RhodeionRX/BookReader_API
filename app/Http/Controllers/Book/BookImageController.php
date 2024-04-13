@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Book;
 
 use App\DTO\Book\AddImageDTO;
+use App\DTO\Book\UpdateImageDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookImageRequest;
+use App\Http\Requests\Book\UpdateBookImageRequest;
 use App\Http\Resources\Book\BookImageResource;
 use App\Services\BookService;
 use App\Services\FileService;
+use Faker\Core\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -25,7 +28,6 @@ class BookImageController extends Controller
         return BookImageResource::make($this->service->addImage(
             AddImageDTO::fromValues(
                 FileService::saveFile($request->file('image')),
-//                $request->validated('status'),
                 $request->validated('language'),
                 $request->validated('book_id')
             )
@@ -39,9 +41,19 @@ class BookImageController extends Controller
         );
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateBookImageRequest $request, int $id): JsonResponse
     {
-        //
+        $url = null;
+        if ($request->hasFile('image')) {
+            $url = FileService::saveFile($request->file('image'));
+        }
+
+        return BookImageResource::make(
+            $this->service->updateImage(
+                $id,
+                UpdateImageDTO::fromValues($url, $request->validated('status'))
+            )
+        )->response()->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     public function destroy(string $id): JsonResponse

@@ -5,8 +5,10 @@ namespace App\Repositories\Book;
 use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
 use App\Enums\LanguagesEnum;
+use App\Models\BookImage;
 use App\Models\BookLocalInfo;
 use stdClass;
 
@@ -25,6 +27,7 @@ interface BookRepositoryInterface
 
     // Images
     public function addImage(AddImageDTO $dto, ?string $status);
+    public function updateImage(BookImage $image, UpdateImageDTO $dto);
     public function findImage(int $id);
     public function findImagesByBook(int $book_id);
     public function deleteImage(int $id);
