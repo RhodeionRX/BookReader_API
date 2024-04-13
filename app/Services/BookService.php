@@ -4,13 +4,9 @@ namespace App\Services;
 use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Enums\ImageStatusEnum;
 use App\Exceptions\ApiException;
-use App\Models\Book;
-use App\Models\BookImage;
-use App\Models\BookLocalInfo;
 use App\Repositories\Book\BookRepositoryInterface;
-use Illuminate\Http\Response;
-use stdClass;
 
 class BookService
 {
@@ -56,7 +52,23 @@ class BookService
     // Images
     public function addImage(AddImageDTO $dto)
     {
+        // check if there is an image for the book
+        $candidates = $this->repository->findImagesByBook($dto->book_id);
+
+        if ($candidates->isEmpty())
+        {
+            return $this->repository->addImage(
+                $dto,
+                ImageStatusEnum::Primary->value
+            );
+        }
+
         return $this->repository->addImage($dto);
+    }
+
+    public function updateImage()
+    {
+
     }
 
     public function findImage(int $id)

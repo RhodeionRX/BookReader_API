@@ -25,7 +25,7 @@ class BookImageController extends Controller
         return BookImageResource::make($this->service->addImage(
             AddImageDTO::fromValues(
                 FileService::saveFile($request->file('image')),
-                $request->validated('status'),
+//                $request->validated('status'),
                 $request->validated('language'),
                 $request->validated('book_id')
             )

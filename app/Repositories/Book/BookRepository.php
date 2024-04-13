@@ -5,6 +5,7 @@ namespace App\Repositories\Book;
 use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\AddLocalDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Enums\ImageStatusEnum;
 use App\Models\Book;
 use App\Models\BookImage;
 use App\Models\BookLocalInfo;
@@ -61,11 +62,14 @@ class BookRepository implements BookRepositoryInterface
     }
 
     // Images
-    public function addImage(AddImageDTO $dto)
+    public function addImage(
+        AddImageDTO $dto,
+        ?string $status = ImageStatusEnum::Additional->value
+    )
     {
         return BookImage::create([
                 'content' => $dto->content,
-                'status' => $dto->status,
+                'status' => $status,
                 'language'  => $dto->language,
                 'book_id' => $dto->book_id
             ]
@@ -77,7 +81,10 @@ class BookRepository implements BookRepositoryInterface
         return BookImage::findOrFail($id);
     }
 
-
+    public function findImagesByBook(int $book_id)
+    {
+        return BookImage::where('book_id', $book_id)->get();
+    }
 
     public function deleteImage(int $id)
     {
