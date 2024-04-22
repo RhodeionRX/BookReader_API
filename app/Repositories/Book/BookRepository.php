@@ -3,13 +3,14 @@
 namespace App\Repositories\Book;
 
 use App\DTO\Book\AddImageDTO;
-use App\DTO\Book\AddLocalDTO;
+use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
+use App\Enums\LanguagesEnum;
 use App\Models\Book;
 use App\Models\BookImage;
-use App\Models\BookLocalInfo;
+use App\Models\BookDetails;
 use App\Repositories\BaseRepository;
 use stdClass;
 class BookRepository implements BookRepositoryInterface
@@ -22,12 +23,12 @@ class BookRepository implements BookRepositoryInterface
 
     public function find(int $id)
     {
-        return Book::withTrashed()->with(['localizations', 'images'])->findOrFail($id);
+        return Book::withTrashed()->with('details.images')->findOrFail($id);
     }
 
     public function findAll()
     {
-        return Book::with(['localizations', 'images'])->get();
+        return Book::with('details.images')->get();
     }
 
     public function destroy(int $id)
@@ -38,9 +39,9 @@ class BookRepository implements BookRepositoryInterface
     }
 
     // Localizations
-    public function addLocalization(AddLocalDTO $dto)
+    public function addLocalization(AddDetailsDTO $dto)
     {
-        return BookLocalInfo::create([
+        return BookDetails::create([
             'title' => $dto->title,
             'description' => $dto->description,
             'language' => $dto->language,
@@ -50,10 +51,10 @@ class BookRepository implements BookRepositoryInterface
 
     public function findLocalization(int $id)
     {
-        return BookLocalInfo::findOrFail($id);
+        return BookDetails::findOrFail($id);
     }
 
-    public function update(BookLocalInfo $localization, UpdateBookDTO $dto)
+    public function update(BookDetails $localization, UpdateBookDTO $dto)
     {
         $localization->title = $dto->title;
         $localization->description = $dto->description;
@@ -65,14 +66,13 @@ class BookRepository implements BookRepositoryInterface
     // Images
     public function addImage(
         AddImageDTO $dto,
-        ?string $status = ImageStatusEnum::Additional->value
+        ?ImageStatusEnum $status = ImageStatusEnum::Additional
     )
     {
         return BookImage::create([
                 'content' => $dto->content,
-                'status' => $status,
-                'language'  => $dto->language,
-                'book_id' => $dto->book_id
+                'status' => $status->value,
+                'detail_id' => $dto->detail_id
             ]
         );
     }
@@ -82,9 +82,9 @@ class BookRepository implements BookRepositoryInterface
         return BookImage::findOrFail($id);
     }
 
-    public function findImagesByBook(int $book_id)
+    public function findImagesByBook(int $detail_id)
     {
-        return BookImage::where('book_id', $book_id)->get();
+        return BookImage::where('detail_id', $detail_id)->get();
     }
 
     public function updateImage(BookImage $image, UpdateImageDTO $dto)

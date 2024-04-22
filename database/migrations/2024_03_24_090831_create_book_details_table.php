@@ -12,14 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_local_infos', function (Blueprint $table) {
+        Schema::create('book_details', function (Blueprint $table) {
             $table->id()->always();
             $table->string('title', 100)->nullable(false);
             $table->text('description')->nullable(true);
             $table->enum('language', LanguagesEnum::values())->nullable(false);
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->timestampsTz();
-            $table->softDeletesTz();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_local_infos');
+        Schema::dropIfExists('book_details');
     }
 };

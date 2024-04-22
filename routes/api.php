@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Book\BookImageController;
-use App\Http\Controllers\Book\BookLocalizationController;
+use App\Http\Controllers\Book\BookDetailsController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 // Authenticated users only
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/books', [BookController::class, 'create']);
-    Route::post('/books/localization', [BookLocalizationController::class, 'add']);
-    Route::put('/books/localization/{id}', [BookLocalizationController::class, 'update']);
+    Route::post('/books/details', [BookDetailsController::class, 'add']);
+    Route::put('/books/details/{id}', [BookDetailsController::class, 'update']);
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
 
 //    Route::resource('/books/images', 'BookImageController');

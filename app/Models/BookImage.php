@@ -14,12 +14,11 @@ class BookImage extends Model
     protected $fillable = [
         'content',
         'status',
-        'language',
-        'book_id'
+        'detail_id'
     ];
 
-    public function book() : BelongsTo
+    public function book_detail() : BelongsTo
     {
-        return $this->belongsTo(related: Book::class, foreignKey: 'book_id');
+        return $this->belongsTo(related: BookDetails::class, foreignKey: 'detail_id');
     }
 }

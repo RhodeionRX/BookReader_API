@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('name', 25)->change();
             $table->string('login', 75)->nullable(true);
-            $table->softDeletesTz();
+            $table->softDeletes();
         });
 
         // fill the login column with email values, user can change their login in the future

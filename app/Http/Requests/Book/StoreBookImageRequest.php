@@ -21,7 +21,7 @@ class StoreBookImageRequest extends FormRequest
                 'required',
                 Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
             ],
-            'book_id' => ['required', 'exists:books,id']
+            'detail_id' => ['required', 'exists:book_details,id']
         ];
     }
     protected function failedValidation(Validator $validator): void

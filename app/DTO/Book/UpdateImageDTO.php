@@ -2,7 +2,7 @@
 
 namespace App\DTO\Book;
 
-use App\Http\Requests\Book\StoreBookLocalizationRequest;
+use App\Http\Requests\Book\StoreBookDetailsRequest;
 
 final class UpdateImageDTO
 {

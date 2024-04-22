@@ -2,7 +2,7 @@
 namespace App\Services;
 
 use App\DTO\Book\AddImageDTO;
-use App\DTO\Book\AddLocalDTO;
+use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
@@ -39,7 +39,7 @@ class BookService
     }
 
     // Localizations
-    public function addLocalization(AddLocalDTO $dto)
+    public function addDetails(AddDetailsDTO $dto)
     {
         return $this->repository->addLocalization($dto);
     }
@@ -53,14 +53,16 @@ class BookService
     // Images
     public function addImage(AddImageDTO $dto)
     {
-        // check if there is an image for the book
-        $candidates = $this->repository->findImagesByBook($dto->book_id);
+        // Check if there is any images for the book
+        $candidates = $this->repository->findImagesByBook($dto->detail_id, $dto->language);
 
+        // If it's the first image for this book then set up primary status for it.
+        // However it's additional logic for the database trigger.
         if ($candidates->isEmpty())
         {
             return $this->repository->addImage(
                 $dto,
-                ImageStatusEnum::Primary->value
+                ImageStatusEnum::Primary
             );
         }
 

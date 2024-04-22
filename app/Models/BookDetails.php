@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BookLocalInfo extends Model
+class BookDetails extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'book_local_infos';
+    protected $table = 'book_details';
     protected $fillable = [
         'title',
         'description',
@@ -23,5 +23,10 @@ class BookLocalInfo extends Model
     public function book() : BelongsTo
     {
         return $this->belongsTo(related: Book::class, foreignKey: 'book_id');
+    }
+
+    public function images() : HasMany
+    {
+        return $this->hasMany(related: BookImage::class, foreignKey: 'detail_id');
     }
 }

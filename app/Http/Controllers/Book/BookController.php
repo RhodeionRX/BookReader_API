@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Book;
 
-use App\DTO\Book\AddLocalDTO;
+use App\DTO\Book\AddDetailsDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
@@ -19,8 +19,8 @@ class BookController extends Controller
     {
         $book = $this->service->create();
 
-        $localization = $this->service->addLocalization(
-            AddLocalDTO::fromValues(
+        $localization = $this->service->addDetails(
+            AddDetailsDTO::fromValues(
                 $request->validated('title'),
                 $request->validated('description'),
                 $request->validated('language'),

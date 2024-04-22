@@ -16,11 +16,11 @@ return new class extends Migration
             CREATE OR REPLACE FUNCTION define_image_status_procedure() RETURNS trigger AS $$
             BEGIN
                 IF (TG_OP = 'INSERT') THEN
-                    IF EXISTS (SELECT 1 FROM book_images WHERE book_id = NEW.book_id AND status = 'Primary') AND NEW.status = 'Primary' THEN
+                    IF EXISTS (SELECT 1 FROM book_images WHERE detail_id = NEW.detail_id AND status = 'Primary') AND NEW.status = 'Primary' THEN
                         UPDATE book_images
                         SET status = 'Additional'
-                        WHERE book_id = NEW.book_id AND status = 'Primary';
-                    ELSIF NOT EXISTS (SELECT 1 FROM book_images WHERE book_id = NEW.book_id AND status = 'Primary') AND NEW.status = 'Additional' THEN
+                        WHERE detail_id = NEW.detail_id AND status = 'Primary';
+                    ELSIF NOT EXISTS (SELECT 1 FROM book_images WHERE detail_id = NEW.detail_id AND status = 'Primary') AND NEW.status = 'Additional' THEN
                         NEW.status := 'Primary';
                     END IF;
                     RETURN NEW;
@@ -30,14 +30,14 @@ return new class extends Migration
                     IF (NEW.status = 'Primary' AND NEW.status IS DISTINCT FROM OLD.status) THEN
                         UPDATE book_images
                         SET status = 'Additional'
-                        WHERE book_id = NEW.book_id AND status = 'Primary' AND id != NEW.id;
+                        WHERE detail_id = NEW.detail_id AND status = 'Primary' AND id != NEW.id;
                     ELSIF (NEW.status = 'Additional' AND NEW.status IS DISTINCT FROM OLD.status) THEN
                         UPDATE book_images
                         SET status = 'Primary'
                         WHERE id = (
                             SELECT id
                             FROM book_images
-                            WHERE book_id = NEW.book_id AND status = 'Additional' AND id != NEW.id
+                            WHERE detail_id = NEW.detail_id AND status = 'Additional' AND id != NEW.id
                             ORDER BY id
                             LIMIT 1
                         );
@@ -52,7 +52,7 @@ return new class extends Migration
                         WHERE id = (
                             SELECT id
                             FROM book_images
-                            WHERE book_id = OLD.book_id AND status != 'Primary'
+                            WHERE detail_id = OLD.detail_id AND status != 'Primary'
                             ORDER BY id
                             LIMIT 1
                         );

@@ -17,9 +17,8 @@ return new class extends Migration
             $table->id()->always();
             $table->text('content')->nullable(false);
             $table->enum('status', ImageStatusEnum::values())->nullable(false)->default(ImageStatusEnum::Additional);
-            $table->enum('language', LanguagesEnum::values())->nullable(false)->default(LanguagesEnum::En);
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->timestampsTz();
+            $table->foreignId('detail_id')->constrained(table: 'book_details')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

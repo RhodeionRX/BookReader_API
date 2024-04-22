@@ -2,9 +2,9 @@
 
 namespace App\DTO\Book;
 
-use App\Http\Requests\Book\StoreBookLocalizationRequest;
+use App\Http\Requests\Book\StoreBookDetailsRequest;
 
-final class AddLocalDTO
+final class AddDetailsDTO
 {
     public function __construct(
         readonly public string $title,
@@ -12,7 +12,7 @@ final class AddLocalDTO
         readonly public string $language,
         readonly public int $book_id
     ) {}
-    public static function fromRequest(StoreBookLocalizationRequest $request)
+    public static function fromRequest(StoreBookDetailsRequest $request)
     {
         return new self(
             title: $request->validated('title'),

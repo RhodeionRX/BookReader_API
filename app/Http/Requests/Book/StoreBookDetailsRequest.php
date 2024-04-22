@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use App\Traits\ErrorsToJson;
 
-class StoreBookLocalizationRequest extends FormRequest
+class StoreBookDetailsRequest extends FormRequest
 {
     use ErrorsToJson;
     public function rules(): array

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_translations', function (Blueprint $table) {
-            $table->id()->always();
-            $table->string('title', 100)->nullable(false);
-            $table->string('description', 255);
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+        Schema::create('page', function (Blueprint $table) {
+            $table->unsignedBigInteger('key');
+            $table->text('content');
+            $table->foreignId('entity_id')->constrained(table: 'book_entity')->onDelete('cascade');
+            $table->primary(['key', 'entity_id']);
             $table->timestampsTz();
-            $table->softDeletesTz();
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_translations');
+        Schema::dropIfExists('page');
     }
 };

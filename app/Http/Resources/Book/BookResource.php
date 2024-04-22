@@ -18,14 +18,12 @@ class BookResource extends JsonResource
             'id' => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'is_archived' => $this->when(isset($this->deleted_at), function () {
+            'is_archived' => $this->when(
+                isset($this->deleted_at), function () {
                 return true;
             }, false),
-            'localizations' => BookLocalizationResource::collection(
-                $this->whenLoaded('localizations')
-            ),
-            'images' => BookImageResource::collection(
-                $this->whenLoaded('images')
+            'details' => BookDetailsResource::collection(
+                $this->whenLoaded('details')
             )
         ];
     }

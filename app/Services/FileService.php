@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
-    public static function saveFile($file): string
+    public static function saveFile(mixed $file, string $path = '/'): string
     {
         return Storage::url(
-            Storage::disk('public')->put('test', $file)
+            Storage::disk('public')->put($path, $file)
         );
     }
 
