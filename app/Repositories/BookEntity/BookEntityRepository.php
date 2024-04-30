@@ -3,6 +3,7 @@
 namespace App\Repositories\BookEntity;
 
 use App\DTO\BookEntity\StoreBookEntityDTO;
+use App\DTO\BookEntity\UpdateBookEntityDTO;
 use App\Models\BookEntity;
 
 class BookEntityRepository implements IBookEntityRepositoryInterface
@@ -19,21 +20,28 @@ class BookEntityRepository implements IBookEntityRepositoryInterface
 
     public function all()
     {
-        // TODO: Implement all() method.
+        return BookEntity::all();
     }
 
-    public function show(int $id)
+    public function find(int $id)
     {
-        // TODO: Implement show() method.
+        return BookEntity::withTrashed()->findOrFail($id);
     }
 
-    public function update(StoreBookEntityDTO $dto)
+    public function update(BookEntity $bookEntity, UpdateBookEntityDTO $dto)
     {
-        // TODO: Implement update() method.
+        $bookEntity->title = $dto->title;
+        $bookEntity->description = $dto->description;
+        $bookEntity->save();
+
+        return $bookEntity;
     }
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $bookEntity = BookEntity::findOrFail($id);
+        $bookEntity->delete();
+
+        return $bookEntity;
     }
 }
