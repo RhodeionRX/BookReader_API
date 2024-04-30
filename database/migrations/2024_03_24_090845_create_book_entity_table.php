@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('book_entity', function (Blueprint $table) {
             $table->id()->always();
             $table->string('title', 100)->nullable(false);
-            $table->string('description', 255);
+            $table->string('description', 255)->nullable();
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

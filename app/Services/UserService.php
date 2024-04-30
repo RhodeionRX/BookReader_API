@@ -5,14 +5,14 @@ namespace App\Services;
 use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
 use App\Exceptions\ApiException;
-use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\User\IUserRepositoryInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
     public function __construct(
-        protected UserRepositoryInterface $repository
+        protected IUserRepositoryInterface $repository
     ) {}
     public function register(RegisterUserDTO $dto)
     {

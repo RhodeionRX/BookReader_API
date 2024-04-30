@@ -6,7 +6,7 @@ use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
 use App\Models\User;
 
-class UserRepostitory implements UserRepositoryInterface
+class UserRepository implements IUserRepositoryInterface
 {
 
     public function register(RegisterUserDTO $dto)

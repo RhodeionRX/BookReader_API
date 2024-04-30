@@ -5,7 +5,7 @@ namespace App\Repositories\User;
 use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
 
-interface UserRepositoryInterface
+interface IUserRepositoryInterface
 {
     public function register(RegisterUserDTO $dto);
     public function getOne(int $id);

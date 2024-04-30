@@ -7,12 +7,12 @@ use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
 use App\Exceptions\ApiException;
-use App\Repositories\Book\BookRepositoryInterface;
+use App\Repositories\Book\IBookRepositoryInterface;
 
 class BookService
 {
     public function __construct(
-        protected BookRepositoryInterface $repository
+        protected IBookRepositoryInterface $repository
     ) {}
 
     // Books

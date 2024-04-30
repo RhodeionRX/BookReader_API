@@ -22,6 +22,6 @@ class TextLine extends Model
 
     public function translations() : BelongsTo
     {
-        return $this->belongsTo(related: BookTranslation::class, foreignKey: 'translation_id');
+        return $this->belongsTo(related: BookEntity::class, foreignKey: 'translation_id');
     }
 }

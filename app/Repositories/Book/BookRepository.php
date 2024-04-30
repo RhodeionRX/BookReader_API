@@ -13,7 +13,7 @@ use App\Models\BookImage;
 use App\Models\BookDetails;
 use App\Repositories\BaseRepository;
 use stdClass;
-class BookRepository implements BookRepositoryInterface
+class BookRepository implements IBookRepositoryInterface
 {
     // Books
     public function create()

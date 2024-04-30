@@ -12,7 +12,7 @@ use App\Models\BookImage;
 use App\Models\BookDetails;
 use stdClass;
 
-interface BookRepositoryInterface
+interface IBookRepositoryInterface
 {
     // Books
     public function find(int $id);

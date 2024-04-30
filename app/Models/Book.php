@@ -19,6 +19,6 @@ class Book extends Model
 
     public function translations() : HasMany
     {
-        return $this->hasMany(related: BookTranslation::class, foreignKey: 'book_id');
+        return $this->hasMany(related: BookEntity::class, foreignKey: 'book_id');
     }
 }

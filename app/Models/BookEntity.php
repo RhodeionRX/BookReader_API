@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BookTranslation extends Model
+class BookEntity extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $table = 'book_translations';
+    protected $table = 'book_entity';
 
     protected $fillable = [
         'title',
@@ -25,7 +26,7 @@ class BookTranslation extends Model
         return $this->belongsTo(related: Book::class, foreignKey: 'book_id');
     }
 
-    public function lines() : HasMany
+    public function pages() : HasMany
     {
         return $this->hasMany(related: TextLine::class, foreignKey: 'translation_id');
     }

@@ -24,7 +24,11 @@ class UserController extends Controller
         );
 
         return response()->json([
-            'token' => $user->createToken('key')->plainTextToken
+            'token' => $user->createToken(
+                'auth-key',
+                ['*'],
+                now()->addWeek()
+            )->plainTextToken
         ], Response::HTTP_CREATED);
     }
 
@@ -35,7 +39,11 @@ class UserController extends Controller
         );
 
         return response()->json([
-            'token' => $user->createToken('key')->plainTextToken
+            'token' => $user->createToken(
+                'auth-key',
+                ['*'],
+                now()->addWeek()
+            )->plainTextToken
         ], Response::HTTP_CREATED);
     }
 }
