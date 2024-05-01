@@ -7,19 +7,21 @@ use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
-use App\Enums\LanguagesEnum;
 use App\Filters\BookFilter;
 use App\Models\Book;
 use App\Models\BookImage;
 use App\Models\BookDetails;
-use App\Repositories\BaseRepository;
-use stdClass;
+use App\Models\User;
+
 class BookRepository implements IBookRepositoryInterface
 {
     // Books
-    public function create()
+    public function create(User $user)
     {
-        return Book::create();
+        return Book::create([
+            'created_by' => $user->id,
+            'updated_by' => $user->id
+        ]);
     }
 
     public function find(int $id)
@@ -57,13 +59,22 @@ class BookRepository implements IBookRepositoryInterface
         return BookDetails::findOrFail($id);
     }
 
-    public function update(BookDetails $localization, UpdateBookDTO $dto)
+    public function update(BookDetails $localization, UpdateBookDTO $dto, User $user)
     {
         $localization->title = $dto->title;
         $localization->description = $dto->description;
         $localization->save();
 
+        $this->setUpdater($localization->book_id, $user->id);
+
         return $localization;
+    }
+
+    private function setUpdater(int $book_id, int $user_id)
+    {
+        $book = $this->find($book_id);
+        $book->updated_by = $user_id;
+        $book->save();
     }
 
     // Images
