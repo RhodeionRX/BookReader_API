@@ -9,6 +9,8 @@ use App\Enums\ImageStatusEnum;
 use App\Exceptions\ApiException;
 use App\Filters\BookFilter;
 use App\Repositories\Book\IBookRepositoryInterface;
+use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class BookService
 {
@@ -30,9 +32,11 @@ class BookService
             throw ApiException::Error($e->getMessage(), $e->getCode());
         }
     }
-    public function create()
+    public function create(Request $request)
     {
-        return $this->repository->create();
+        $token = PersonalAccessToken::findToken($request->bearerToken());
+        $user = $token->tokenable;
+        return $this->repository->create($user);
     }
     public function destroy(int $id)
     {

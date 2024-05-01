@@ -19,7 +19,7 @@ class BookController extends Controller
 
     public function create(StoreBookRequest $request): JsonResponse
     {
-        $book = $this->service->create();
+        $book = $this->service->create($request);
 
         $localization = $this->service->addDetails(
             AddDetailsDTO::fromValues(
