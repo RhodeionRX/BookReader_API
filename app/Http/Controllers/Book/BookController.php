@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Book;
 
 use App\DTO\Book\AddDetailsDTO;
+use App\Filters\BookFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Book\IndexBookRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
@@ -33,10 +35,10 @@ class BookController extends Controller
         )->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function index(): BookCollection
+    public function index(IndexBookRequest $request, BookFilter $filter): BookCollection
     {
         return BookCollection::make(
-            $this->service->getAll()
+            $this->service->getAll($filter)
         );
     }
 

@@ -18,7 +18,12 @@ class StoreBookDetailsRequest extends FormRequest
             'description' => ['sometimes'],
             'language' => [
                 'required',
-                Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
+                Rule::in(
+                    array_map(
+                        fn($case) => $case->value,
+                        LanguagesEnum::cases()
+                    )
+                ),
             ],
             'book_id' => ['required', 'integer', 'exists:books,id']
         ];

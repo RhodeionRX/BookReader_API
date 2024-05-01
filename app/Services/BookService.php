@@ -7,6 +7,7 @@ use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
 use App\Exceptions\ApiException;
+use App\Filters\BookFilter;
 use App\Repositories\Book\IBookRepositoryInterface;
 
 class BookService
@@ -16,9 +17,9 @@ class BookService
     ) {}
 
     // Books
-    public function getAll()
+    public function getAll(BookFilter $filter)
     {
-        return $this->repository->findAll();
+        return $this->repository->findAll($filter);
     }
 
     public function getOne(int $id)

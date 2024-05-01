@@ -8,6 +8,7 @@ use App\DTO\Book\UpdateBookDTO;
 use App\DTO\Book\UpdateImageDTO;
 use App\Enums\ImageStatusEnum;
 use App\Enums\LanguagesEnum;
+use App\Filters\BookFilter;
 use App\Models\Book;
 use App\Models\BookImage;
 use App\Models\BookDetails;
@@ -26,9 +27,11 @@ class BookRepository implements IBookRepositoryInterface
         return Book::withTrashed()->with('details.images')->findOrFail($id);
     }
 
-    public function findAll()
+    public function findAll(BookFilter $filter)
     {
-        return Book::with('details.images')->get();
+        return Book::filter($filter)
+            ->with('details.images')
+            ->get();
     }
 
     public function destroy(int $id)
