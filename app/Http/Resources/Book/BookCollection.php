@@ -16,7 +16,7 @@ class BookCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'data' => $this->collection
+            'data' => $this->collection,
         ];
     }
 }

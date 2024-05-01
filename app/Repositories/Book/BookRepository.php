@@ -33,7 +33,7 @@ class BookRepository implements IBookRepositoryInterface
     {
         return Book::filter($filter)
             ->with('details.images')
-            ->get();
+            ->paginate(10);
     }
 
     public function destroy(int $id)
