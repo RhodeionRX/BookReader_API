@@ -10,11 +10,8 @@ use App\Http\Requests\Book\UpdateBookImageRequest;
 use App\Http\Resources\Book\BookImageResource;
 use App\Services\BookService;
 use App\Services\FileService;
-use Faker\Core\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class BookImageController extends Controller
 {
@@ -25,13 +22,14 @@ class BookImageController extends Controller
 
     public function store(StoreBookImageRequest $request): JsonResponse
     {
-        return BookImageResource::make($this->service->addImage(
-            AddImageDTO::fromValues(
-                FileService::saveFile($request->file('image'), 'previews'),
-                $request->validated('language'),
-                $request->validated('detail_id')
+        return BookImageResource::make(
+            $this->service->addImage(
+                AddImageDTO::fromValues(
+                    FileService::saveFile($request->file('image'), 'previews'),
+                    $request->validated('detail_id')
+                )
             )
-        ))->response()->setStatusCode(Response::HTTP_CREATED);
+        )->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(int $id): BookImageResource

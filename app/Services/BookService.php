@@ -61,9 +61,9 @@ class BookService
     public function addImage(AddImageDTO $dto)
     {
         // Check if there is any images for the book
-        $candidates = $this->repository->findImagesByBook($dto->detail_id, $dto->language);
+        $candidates = $this->repository->findImagesByBook($dto->detail_id);
 
-        // If it's the first image for this book then set up primary status for it.
+        // If it's the first image for the book we set up primary status for it.
         // However it's additional logic for the database trigger.
         if ($candidates->isEmpty())
         {

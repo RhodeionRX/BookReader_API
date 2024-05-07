@@ -15,7 +15,7 @@ docker compose up (-d)
 ```
 ###### Enter the container running PHP-server:
 ```bash
-docker exec -it bookreader_backend-app-1 bash
+docker exec -it bookreader_api-app-1 bash
 ```
 ###### Install dependencies: 
 ```bash
