@@ -23,7 +23,7 @@ class BookEntityService
         return $this->repository->update($bookEntity, $dto);
     }
 
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         return $this->repository->delete($id);
     }
