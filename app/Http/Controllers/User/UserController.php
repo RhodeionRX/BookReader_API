@@ -7,7 +7,7 @@ use App\DTO\User\RegisterUserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\RegisterUserRequest;
-use App\Services\UserService;
+use App\Services\User\UserService;
 use Illuminate\Http\Response;
 
 class UserController extends Controller

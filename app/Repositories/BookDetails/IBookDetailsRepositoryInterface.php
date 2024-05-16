@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Book;
+namespace App\Repositories\BookDetails;
 
 use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\AddDetailsDTO;
@@ -12,9 +12,10 @@ use App\Models\BookImage;
 use App\Models\BookDetails;
 use App\Models\User;
 
-interface IBookRepositoryInterface
+interface IBookDetailsRepositoryInterface
 {
-    // Books
-    public function create(User $user);
+    // Details aka localizations
+    public function create(AddDetailsDTO $dto);
+    public function update(BookDetails $bookDetails, UpdateBookDTO $dto);
 
 }

@@ -9,7 +9,7 @@ use App\Http\Requests\Book\GetAllBooksRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
-use App\Services\BookService;
+use App\Services\Book\BookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

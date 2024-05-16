@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Book;
 
 use App\DTO\BookEntity\StoreBookEntityDTO;
 use App\DTO\BookEntity\UpdateBookEntityDTO;
@@ -19,12 +19,12 @@ class BookEntityService
 
     public function update(int $id, UpdateBookEntityDTO $dto)
     {
-        $bookEntity = $this->repository->find($id);
+        $bookEntity = $this->repository->find(id: $id, withTrashed: true);
         return $this->repository->update($bookEntity, $dto);
     }
 
     public function destroy(int $id)
     {
-        return $this->repository->delete($id);
+        return $this->repository->destroy($id);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Filters\QueryFilter;
+use App\Models\Book;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository implements IBaseRepositoryInterface
@@ -55,5 +56,13 @@ class BaseRepository implements IBaseRepositoryInterface
         }
 
         return $data->find($id);
+    }
+
+    public function destroy(int $id)
+    {
+        $data = $this->model->findOrFail($id);
+        $data->delete();
+
+        return $data;
     }
 }

@@ -8,8 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreBookImageRequest;
 use App\Http\Requests\Book\UpdateBookImageRequest;
 use App\Http\Resources\Book\BookImageResource;
-use App\Services\BookService;
-use App\Services\FileService;
+use App\Services\Book\BookImageService;
+use App\Services\Book\BookService;
+use App\Services\File\FileService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -17,13 +18,13 @@ class BookImageController extends Controller
 {
 
     public function __construct(
-        protected BookService $service,
+        protected BookImageService $service,
     ) {}
 
     public function store(StoreBookImageRequest $request): JsonResponse
     {
         return BookImageResource::make(
-            $this->service->addImage(
+            $this->service->create(
                 AddImageDTO::fromValues(
                     FileService::saveFile($request->file('image'), 'previews'),
                     $request->validated('detail_id')
@@ -35,7 +36,7 @@ class BookImageController extends Controller
     public function show(int $id): BookImageResource
     {
         return BookImageResource::make(
-            $this->service->findImage($id)
+            $this->service->find($id)
         );
     }
 
@@ -47,7 +48,7 @@ class BookImageController extends Controller
         }
 
         return BookImageResource::make(
-            $this->service->updateImage(
+            $this->service->update(
                 $id,
                 UpdateImageDTO::fromValues($url, $request->validated('status'))
             )
@@ -57,7 +58,7 @@ class BookImageController extends Controller
     public function destroy(string $id): JsonResponse
     {
         return BookImageResource::make(
-            $this->service->deleteImage($id)
+            $this->service->destroy($id)
         )->response()->setStatusCode(Response::HTTP_ACCEPTED);
     }
 }

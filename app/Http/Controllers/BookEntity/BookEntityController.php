@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookEntity\StoreBookEntityRequest;
 use App\Http\Requests\BookEntity\UpdateBookEntityRequest;
 use App\Http\Resources\Book\BookEntityResource;
-use App\Services\BookEntityService;
+use App\Services\Book\BookEntityService;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
