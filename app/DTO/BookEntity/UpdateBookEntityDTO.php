@@ -2,7 +2,7 @@
 
 namespace App\DTO\BookEntity;
 
-use App\Http\Requests\BookEntity\StoreBookEntityRequest;
+use App\Http\Requests\BookEntity\UpdateBookEntityRequest;
 
 final class UpdateBookEntityDTO
 {

@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Book Entity
     Route::post('/books/entity', [BookEntityController::class, 'store']);
+    Route::get('/books/entity', [BookEntityController::class, 'show']);
     Route::put('/books/entity/{id}', [BookEntityController::class, 'update']);
     Route::delete('/books/entity/{id}', [BookEntityController::class, 'destroy']);
 });

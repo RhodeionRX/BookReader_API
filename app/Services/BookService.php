@@ -9,28 +9,31 @@ use App\Enums\ImageStatusEnum;
 use App\Exceptions\ApiException;
 use App\Filters\BookFilter;
 use App\Repositories\Book\IBookRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class BookService
 {
     public function __construct(
-        protected IBookRepositoryInterface $repository
+        protected IBookRepositoryInterface $repository,
+        public Builder $builder
     ) {}
 
     // Books
     public function getAll(BookFilter $filter)
     {
-        return $this->repository->findAll($filter);
+        return $this->repository->all(filter: $filter, relations: 'details.images', limit: 10);
     }
 
     public function getOne(int $id)
     {
-        try {
-            return $this->repository->find($id);
-        } catch (\Exception $e) {
-            throw ApiException::Error($e->getMessage(), $e->getCode());
-        }
+        return $this->repository
+            ->find(
+                id: $id,
+                relations: 'details.images',
+                withTrashed: true
+            );
     }
     public function create(Request $request)
     {

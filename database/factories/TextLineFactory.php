@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TextLine>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BookPage>
  */
 class TextLineFactory extends Factory
 {

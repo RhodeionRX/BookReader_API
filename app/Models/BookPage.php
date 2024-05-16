@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TextLine extends Model
+class BookPage extends Model
 {
     use HasFactory;
 
-    protected $table = 'text_lines';
+    protected $table = 'book_page';
 
     protected $fillable = [
-        'key',
+        'number',
         'content',
-        'translation_id',
+        'entity_id',
     ];
 
-    public function translations() : BelongsTo
+    public function entity() : BelongsTo
     {
-        return $this->belongsTo(related: BookEntity::class, foreignKey: 'translation_id');
+        return $this->belongsTo(related: BookEntity::class, foreignKey: 'entity_id');
     }
 }

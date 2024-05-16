@@ -16,7 +16,6 @@ interface IBookRepositoryInterface
 {
     // Books
     public function find(int $id);
-    public function findAll(BookFilter $filter);
     public function create(User $user);
     public function destroy(int $id);
 

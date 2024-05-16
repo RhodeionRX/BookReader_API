@@ -12,9 +12,14 @@ use App\Models\Book;
 use App\Models\BookImage;
 use App\Models\BookDetails;
 use App\Models\User;
+use App\Repositories\BaseRepository;
 
-class BookRepository implements IBookRepositoryInterface
+class BookRepository extends BaseRepository implements IBookRepositoryInterface
 {
+    public function __construct(Book $book) {
+        parent::__construct($book);
+    }
+
     // Books
     public function create(User $user)
     {
@@ -22,18 +27,6 @@ class BookRepository implements IBookRepositoryInterface
             'created_by' => $user->id,
             'updated_by' => $user->id
         ]);
-    }
-
-    public function find(int $id)
-    {
-        return Book::withTrashed()->with('details.images')->findOrFail($id);
-    }
-
-    public function findAll(BookFilter $filter)
-    {
-        return Book::filter($filter)
-            ->with('details.images')
-            ->paginate(10);
     }
 
     public function destroy(int $id)

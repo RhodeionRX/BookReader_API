@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('page', function (Blueprint $table) {
+        Schema::create('book_page', function (Blueprint $table) {
             $table->unsignedBigInteger('number');
             $table->jsonb('content');
             $table->foreignId('entity_id')->constrained(table: 'book_entity')->onDelete('cascade');

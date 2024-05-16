@@ -28,6 +28,6 @@ class BookEntity extends Model
 
     public function pages() : HasMany
     {
-        return $this->hasMany(related: TextLine::class, foreignKey: 'translation_id');
+        return $this->hasMany(related: BookPage::class, foreignKey: 'entity_id');
     }
 }

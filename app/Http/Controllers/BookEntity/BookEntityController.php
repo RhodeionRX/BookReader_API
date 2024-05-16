@@ -17,6 +17,12 @@ class BookEntityController extends Controller
     public function __construct(
         protected BookEntityService $service
     ){}
+
+    public function show() : JsonResponse
+    {
+
+    }
+
     public function store(StoreBookEntityRequest $request) : JsonResponse
     {
         return BookEntityResource::make(

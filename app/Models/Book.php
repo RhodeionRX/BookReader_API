@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Book extends Model
+class Book extends BaseModel
 {
     use HasFactory, SoftDeletes, Filterable;
 
@@ -24,7 +23,7 @@ class Book extends Model
         return $this->hasMany(related: BookDetails::class, foreignKey: 'book_id');
     }
 
-    public function translations() : HasMany
+    public function entities() : HasMany
     {
         return $this->hasMany(related: BookEntity::class, foreignKey: 'book_id');
     }
