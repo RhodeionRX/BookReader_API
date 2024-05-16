@@ -17,10 +17,6 @@ class StoreBookImageRequest extends FormRequest
     {
         return [
             'image' => ['required', 'image:jpg,jpeg,png'],
-            'language' => [
-                'required',
-                Rule::in(array_map(fn($case) => $case->value, LanguagesEnum::cases())),
-            ],
             'detail_id' => ['required', 'exists:book_details,id']
         ];
     }
