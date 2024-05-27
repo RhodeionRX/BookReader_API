@@ -20,21 +20,23 @@ class BaseRepository implements IBaseRepositoryInterface
         ?int $limit = null
     )
     {
+        $data = $this->model;
+
         if ($filter !== null) {
-            $this->model = $this->model->filter($filter);
+            $data = $data->filter($filter);
         }
 
         if ($relations !== null) {
-            $this->model = $this->model->with($relations);
+            $data = $data->with($relations);
         }
 
         if($limit !== null) {
-            $this->model = $this->model->paginate($limit);
+            $data = $data->paginate($limit);
         } else {
-            $this->model = $this->model->get();
+            $data = $data->get();
         }
 
-        return $this->model;
+        return $data;
     }
 
     public function find(
@@ -43,15 +45,17 @@ class BaseRepository implements IBaseRepositoryInterface
         ?bool $withTrashed = false
     )
     {
+        $data = $this->model;
+
         if ($withTrashed) {
-            $this->model = $this->model->withTrashed();
+            $data = $data->withTrashed();
         }
 
         if ($relations !== null) {
-            $this->model = $this->model->with($relations);
+            $data = $data->with($relations);
         }
 
-        return $this->model->find($id);
+        return $data->find($id);
     }
 
     public function destroy(int $id)
