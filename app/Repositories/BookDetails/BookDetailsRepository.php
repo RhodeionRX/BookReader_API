@@ -32,11 +32,4 @@ class BookDetailsRepository extends BaseRepository implements IBookDetailsReposi
 
         return $bookDetails;
     }
-
-    private function setUpdater(int $book_id, int $user_id)
-    {
-        $book = $this->find($book_id);
-        $book->updated_by = $user_id;
-        $book->save();
-    }
 }

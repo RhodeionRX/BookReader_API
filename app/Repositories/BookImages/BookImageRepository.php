@@ -31,8 +31,8 @@ class BookImageRepository extends BaseRepository implements IBookImageRepository
 
     public function update(BookImage $image, UpdateImageDTO $dto)
     {
-        if (!empty($dto->content)) $image->content = $dto->content;
-        if (!empty($dto->status)) $image->status = $dto->status;
+        $image->content = $dto->content;
+        $image->status = $dto->status;
         $image->save();
 
         return $image;
