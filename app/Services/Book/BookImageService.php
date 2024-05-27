@@ -4,14 +4,14 @@ namespace App\Services\Book;
 
 use App\DTO\Book\AddImageDTO;
 use App\DTO\Book\UpdateImageDTO;
-use App\Enums\ImageStatusEnum;
 use App\Repositories\BookImages\BookImageRepository;
+use App\Repositories\BookImages\IBookImageRepositoryInterface;
 use App\Services\File\FileService;
 
 class BookImageService
 {
     public function __construct(
-        protected BookImageRepository $repository
+        protected IBookImageRepositoryInterface $repository
     ) {}
 
     // Images
