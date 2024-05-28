@@ -5,6 +5,7 @@ namespace App\Services\Book;
 use App\DTO\BookEntity\StoreBookEntityDTO;
 use App\DTO\BookEntity\UpdateBookEntityDTO;
 use App\Repositories\BookEntity\IBookEntityRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class BookEntityService
 {
@@ -19,13 +20,39 @@ class BookEntityService
 
     public function create(StoreBookEntityDTO $dto)
     {
-        return $this->repository->create($dto);
+        DB::beginTransaction();
+
+        try {
+            $entity = $this->repository->create($dto);
+
+            DB::commit();
+
+            return $entity;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function update(int $id, UpdateBookEntityDTO $dto)
     {
-        $bookEntity = $this->repository->find(id: $id, withTrashed: true);
-        return $this->repository->update($bookEntity, $dto);
+        DB::beginTransaction();
+
+        try {
+            $entity = $this->repository->update(
+                $this->repository->find(id: $id, withTrashed: true),
+                $dto
+            );
+
+            DB::commit();
+
+            return $entity;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function destroy(int $id)

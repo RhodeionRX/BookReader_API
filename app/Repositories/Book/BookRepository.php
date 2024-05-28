@@ -17,11 +17,8 @@ class BookRepository extends BaseRepository implements IBookRepositoryInterface
     }
 
     // Books
-    public function create(User $user)
+    public function create()
     {
-        return Book::create([
-            'created_by' => $user->id,
-            'updated_by' => $user->id
-        ]);
+        return Book::create();
     }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\Book\GetAllBooksRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
+use App\Services\Book\BookDetailsService;
 use App\Services\Book\BookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -17,11 +18,13 @@ class BookController extends Controller
 {
     public function __construct(protected BookService $service) {}
 
-    public function create(StoreBookRequest $request): JsonResponse
+    public function create(
+        StoreBookRequest $request,
+        BookDetailsService $detailsService): JsonResponse
     {
         $book = $this->service->create($request);
 
-        $localization = $this->service->addDetails(
+        $localization = $detailsService->create(
             AddDetailsDTO::fromValues(
                 $request->validated('title'),
                 $request->validated('description'),
@@ -45,7 +48,7 @@ class BookController extends Controller
     public function show(int $id): BookResource
     {
         return BookResource::make(
-            $this->service->getOne($id)
+            $this->service->show($id)
         );
     }
 

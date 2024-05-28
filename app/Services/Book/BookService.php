@@ -5,6 +5,7 @@ namespace App\Services\Book;
 use App\Filters\BookFilter;
 use App\Repositories\Book\IBookRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class BookService
@@ -19,7 +20,7 @@ class BookService
         return $this->repository->all(filter: $filter, relations: 'details.images', limit: 10);
     }
 
-    public function getOne(int $id)
+    public function show(int $id)
     {
         return $this->repository
             ->find(
@@ -28,12 +29,24 @@ class BookService
                 withTrashed: true
             );
     }
-    public function create(Request $request)
+    public function create()
     {
-        $token = PersonalAccessToken::findToken($request->bearerToken());
-        $user = $token->tokenable;
-        return $this->repository->create($user);
+        DB::beginTransaction();
+
+        try {
+            $book = $this->repository->create();
+            $book->SetCreator();
+
+            DB::commit();
+
+            return $book;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
+
     public function destroy(int $id)
     {
         return $this->repository->destroy($id);

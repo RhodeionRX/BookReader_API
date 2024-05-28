@@ -5,6 +5,7 @@ namespace App\Services\Book;
 use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
 use App\Repositories\BookDetails\BookDetailsRepository;
+use Illuminate\Support\Facades\DB;
 
 class BookDetailsService
 {
@@ -13,21 +14,42 @@ class BookDetailsService
 
     public function create(AddDetailsDTO $dto)
     {
-        $detail = $this->repository->create($dto);
-        $detail->book->setUpdater();
-        return $detail;
+        DB::beginTransaction();
+
+        try {
+            $detail = $this->repository->create($dto);
+            $detail->book->setUpdater();
+
+            DB::commit();
+
+            return $detail;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function update(int $id, UpdateBookDTO $dto)
     {
-        $detail = $this->repository->update(
-            $this->repository->find(
-                id: $id,
-                withTrashed: true
-            ), $dto
-        );
-        $detail->book->setUpdater();
+        DB::beginTransaction();
 
-        return $detail;
+        try {
+            $detail = $this->repository->update(
+                $this->repository->find(
+                    id: $id,
+                    withTrashed: true
+                ), $dto
+            );
+            $detail->book->setUpdater();
+
+            DB::commit();
+
+            return $detail;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 }

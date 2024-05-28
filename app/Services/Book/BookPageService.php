@@ -5,6 +5,7 @@ namespace App\Services\Book;
 use App\DTO\BookEntity\StoreBookPageDTO;
 use App\DTO\BookEntity\UpdateBookPageDTO;
 use App\Repositories\BookPage\IBookPageRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class BookPageService
 {
@@ -13,15 +14,39 @@ class BookPageService
     ) {}
     public function create(StoreBookPageDTO $dto)
     {
-        return $this->repository->create($dto);
+        DB::beginTransaction();
+
+        try {
+            $page = $this->repository->create($dto);
+
+            DB::commit();
+
+            return $page;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function update(int $id, UpdateBookPageDTO $dto)
     {
-        return $this->repository->update(
-            $this->repository->find($id),
-            $dto
-        );
+        DB::beginTransaction();
+
+        try {
+            $page = $this->repository->update(
+                $this->repository->find($id),
+                $dto
+            );
+
+            DB::commit();
+
+            return $page;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function destroy(int $id)
