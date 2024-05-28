@@ -12,6 +12,11 @@ class BookEntityService
         protected IBookEntityRepositoryInterface $repository
     ) {}
 
+    public function show(int $id)
+    {
+        return $this->repository->find($id);
+    }
+
     public function create(StoreBookEntityDTO $dto)
     {
         return $this->repository->create($dto);

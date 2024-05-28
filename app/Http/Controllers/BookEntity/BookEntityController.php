@@ -18,9 +18,11 @@ class BookEntityController extends Controller
         protected BookEntityService $service
     ){}
 
-    public function show() : JsonResponse
+    public function show(int $id) : JsonResponse
     {
-
+        return BookEntityResource::make(
+            $this->service->show($id)
+        )->response()->setStatusCode(Response::HTTP_OK);
     }
 
     public function store(StoreBookEntityRequest $request) : JsonResponse

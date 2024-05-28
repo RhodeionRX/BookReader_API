@@ -4,6 +4,7 @@ use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Book\BookImageController;
 use App\Http\Controllers\Book\BookDetailsController;
 use App\Http\Controllers\BookEntity\BookEntityController;
+use App\Http\Controllers\BookEntity\BookPageController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +23,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Book Entity
     Route::post('/books/entity', [BookEntityController::class, 'store']);
-    Route::get('/books/entity', [BookEntityController::class, 'show']);
     Route::put('/books/entity/{id}', [BookEntityController::class, 'update']);
     Route::delete('/books/entity/{id}', [BookEntityController::class, 'destroy']);
+
+    // Book Entity Page
+    Route::post('/books/entity/page', [BookPageController::class, 'store']);
+    Route::put('/books/entity/page/{id}', [BookPageController::class, 'update']);
+    Route::delete('/books/entity/page/{id}', [BookPageController::class, 'destroy']);
 });
 
 // Unauthenticated
@@ -36,4 +41,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/books/{id}', [BookController::class, 'show']);
 
     Route::get('/books/images/{id}', [BookImageController::class, 'show']);
+
+    Route::get('/books/entity/{id}', [BookEntityController::class, 'show']);
+
 });

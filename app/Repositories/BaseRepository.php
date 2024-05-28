@@ -55,7 +55,7 @@ class BaseRepository implements IBaseRepositoryInterface
             $data = $data->with($relations);
         }
 
-        return $data->find($id);
+        return $data->findOrFail($id);
     }
 
     public function destroy(int $id)
