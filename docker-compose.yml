@@ -28,9 +28,12 @@ services:
             - "DB_PORT=${DB_PORT}"
             - "DB_DATABASE=${DB_DATABASE}"
             - "DB_USERNAME=${DB_USERNAME}"
-            - "DB_PASSWORD=${DB_PASSWORD}"
+            - "REDIS_HOST=${DB_PASSWORD}"
+            - "REDIS_PORT=${REDIS_PORT}"
+            - "REDIS_PASSWORD=${REDIS_PASSWORD}"
         depends_on:
             - db
+            - cache
         restart: unless-stopped
 
     db:
@@ -47,5 +50,19 @@ services:
         volumes:
             - postgres-data:/var/lib/postgresql/data
 
+    cache:
+        image: redis:latest
+        restart: always
+        ports:
+            - "${REDIS_PORT:-6379}:6379"
+        volumes:
+            - cache:/root/redis
+        environment:
+            REDIS_PASSWORD: "${REDIS_PASSWORD}"
+            REDIS_PORT: "${REDIS_PORT}"
+            REDIS_DATABASES: "${REDIS_DATABASES}"
+
 volumes:
     postgres-data:
+    cache:
+        driver: local
