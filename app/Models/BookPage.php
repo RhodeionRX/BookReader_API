@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\HasCompositeKey;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BookPage extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCompositeKey;
 
     protected $table = 'book_page';
+    protected $primaryKey = ['entity_id', 'number'];
+    public $incrementing = false;
 
     protected $fillable = [
         'number',

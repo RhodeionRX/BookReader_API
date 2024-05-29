@@ -31,21 +31,29 @@ class BookPageController extends Controller
 
     public function update(
         UpdateBookPageRequest $request,
-        int $id
+        int $entity_id,
+        int $number
     ) : JsonResponse
     {
         return BookPageResource::make(
             $this->service->update(
-                $id,
+                $entity_id,
+                $number,
                 UpdateBookPageDTO::fromRequest($request)
             )
         )->response()->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(int $id) : JsonResponse
+    public function destroy(
+        int $entity_id,
+        int $number
+    ) : JsonResponse
     {
         return BookPageResource::make(
-            $this->service->destroy($id)
+            $this->service->destroy(
+                entity_id: $entity_id,
+                number: $number
+            )
         )->response()->setStatusCode(Response::HTTP_ACCEPTED);
     }
 }

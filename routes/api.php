@@ -27,9 +27,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/books/entity/{id}', [BookEntityController::class, 'destroy']);
 
     // Book Entity Page
-    Route::post('/books/entity/page', [BookPageController::class, 'store']);
-    Route::put('/books/entity/page/{id}', [BookPageController::class, 'update']);
-    Route::delete('/books/entity/page/{id}', [BookPageController::class, 'destroy']);
+    Route::post('/books/entity/pages', [BookPageController::class, 'store']);
+    Route::put('/books/entity/{entity_id}/pages/{number}', [BookPageController::class, 'update']);
+    Route::delete('/books/entity/{entity_id}/pages/{number}', [BookPageController::class, 'destroy']);
 });
 
 // Unauthenticated

@@ -7,10 +7,9 @@ use App\DTO\BookEntity\UpdateBookPageDTO;
 use App\Models\BookPage;
 use App\Repositories\BaseRepository;
 
-class BookPageRepository extends BaseRepository implements IBookPageRepositoryInterface
+class BookPageRepository implements IBookPageRepositoryInterface
 {
     public function __construct(BookPage $page) {
-        parent::__construct($page);
     }
 
     public function create(StoreBookPageDTO $dto)
@@ -27,5 +26,22 @@ class BookPageRepository extends BaseRepository implements IBookPageRepositoryIn
         $page->update([
             'content' => $dto->content,
         ]);
+
+        return $page;
+    }
+
+    public function find(int $entity_id, int $number)
+    {
+        return BookPage::where('entity_id', $entity_id)
+            ->where(function ($query) use ($number) {
+                $query->where('number', $number);
+            })->first();
+    }
+
+    public function destroy(BookPage $page)
+    {
+        $page->delete();
+
+        return $page;
     }
 }

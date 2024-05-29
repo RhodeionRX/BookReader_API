@@ -29,13 +29,16 @@ class BookPageService
         }
     }
 
-    public function update(int $id, UpdateBookPageDTO $dto)
+    public function update(int $entity_id, int $number, UpdateBookPageDTO $dto)
     {
         DB::beginTransaction();
 
         try {
             $page = $this->repository->update(
-                $this->repository->find($id),
+                $this->repository->find(
+                    entity_id: $entity_id,
+                    number: $number
+                ),
                 $dto
             );
 
@@ -49,8 +52,16 @@ class BookPageService
         }
     }
 
-    public function destroy(int $id)
+    public function destroy(
+        int $entity_id,
+        int $number
+    )
     {
-        return $this->repository->destroy($id);
+        return $this->repository->destroy(
+            $this->repository->find(
+                entity_id: $entity_id,
+                number: $number
+            )
+        );
     }
 }
