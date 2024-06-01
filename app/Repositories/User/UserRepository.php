@@ -2,9 +2,8 @@
 
 namespace App\Repositories\User;
 
-use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
-use App\Models\User;
+use App\Models\Users\User;
 
 class UserRepository implements IUserRepositoryInterface
 {

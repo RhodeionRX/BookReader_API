@@ -1,12 +1,13 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Enums\Users;
 
-namespace App\Enums;
+use App\Traits\EnumToArray;
 
 enum RoleEnum: string {
+    use EnumToArray;
+
     case User = 'user';
     case Admin = 'admin';
-    case Editor = 'editor';
     case SuperUser = 'super-user';
 }

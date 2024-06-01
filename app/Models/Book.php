@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Users\User;
 use App\Traits\Filterable;
 use App\Traits\Ownable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use Filterable, HasFactory, SoftDeletes, Filterable, Ownable;
+    use Filterable, HasFactory, SoftDeletes, Ownable;
 
     protected $table = 'books';
 

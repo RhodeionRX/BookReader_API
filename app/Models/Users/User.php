@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Users;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Users\RoleEnum;
+use App\Models\Book;
+use App\Repositories\Role\RoleRepository;
+use App\Services\User\RoleService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,8 +53,26 @@ class User extends Authenticatable
         ];
     }
 
+    /*
+     * Relations
+     * */
     public function books(): HasMany
     {
         return $this->hasMany(Book::class);
     }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Role::class,
+            table: 'user_roles',
+            foreignPivotKey: 'user_id',
+            relatedPivotKey: 'role_id'
+        );
+    }
+
+    /*
+     * Methods
+     * */
+
 }

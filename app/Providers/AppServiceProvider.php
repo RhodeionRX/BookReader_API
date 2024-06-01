@@ -12,6 +12,8 @@ use App\Repositories\BookImages\BookImageRepository;
 use App\Repositories\BookImages\IBookImageRepositoryInterface;
 use App\Repositories\BookPage\BookPageRepository;
 use App\Repositories\BookPage\IBookPageRepositoryInterface;
+use App\Repositories\Role\IRoleRepositoryInterface;
+use App\Repositories\Role\RoleRepository;
 use App\Repositories\User\IUserRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IBookImageRepositoryInterface::class, BookImageRepository::class);
         $this->app->bind(IBookEntityRepositoryInterface::class, BookEntityRepository::class);
         $this->app->bind(IBookPageRepositoryInterface::class, BookPageRepository::class);
+        $this->app->bind(IRoleRepositoryInterface::class, RoleRepository::class);
     }
 
     /**

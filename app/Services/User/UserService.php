@@ -4,19 +4,35 @@ namespace App\Services\User;
 
 use App\DTO\User\LoginUserDTO;
 use App\DTO\User\RegisterUserDTO;
+use App\Enums\Users\RoleEnum;
 use App\Exceptions\ApiException;
 use App\Repositories\User\IUserRepositoryInterface;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
     public function __construct(
-        protected IUserRepositoryInterface $repository
+        protected IUserRepositoryInterface $repository,
+        protected RoleService $roleService
     ) {}
     public function register(RegisterUserDTO $dto)
     {
-        return $this->repository->register($dto);
+        DB::beginTransaction();
+
+        try {
+            $user = $this->repository->register($dto);
+            $this->roleService->addRole($user, RoleEnum::User);
+
+            DB::commit();
+
+            return $user;
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+
+            throw $exception;
+        }
     }
 
     public function login(LoginUserDTO $dto)

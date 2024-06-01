@@ -4,9 +4,7 @@ namespace App\Repositories\BookDetails;
 
 use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
-use App\Models\Book;
 use App\Models\BookDetails;
-use App\Models\User;
 use App\Repositories\BaseRepository;
 
 class BookDetailsRepository extends BaseRepository implements IBookDetailsRepositoryInterface
