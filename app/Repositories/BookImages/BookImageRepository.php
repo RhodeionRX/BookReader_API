@@ -11,7 +11,6 @@ use App\Repositories\BaseRepository;
 
 class BookImageRepository extends BaseRepository implements IBookImageRepositoryInterface
 {
-
     public function __construct(BookImage $image) {
         parent::__construct($image);
     }

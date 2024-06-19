@@ -16,8 +16,7 @@ class StoreBookImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'image:jpg,jpeg,png'],
-            'detail_id' => ['required', 'exists:book_details,id']
+            'image' => ['required', 'image:jpg,jpeg,png']
         ];
     }
     protected function failedValidation(Validator $validator): void

@@ -12,5 +12,4 @@ interface IBookImageRepositoryInterface
     // Images
     public function create(AddImageDTO $dto, ?ImageStatusEnum $status);
     public function update(BookImage $image, UpdateImageDTO $dto);
-    public function destroy(int $id);
 }

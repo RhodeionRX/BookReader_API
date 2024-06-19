@@ -6,6 +6,7 @@ use App\Http\Controllers\Book\BookDetailsController;
 use App\Http\Controllers\BookEntity\BookEntityController;
 use App\Http\Controllers\BookEntity\BookPageController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Middleware\CheckBookAuthorization;
 use App\Models\Book;
 use App\Models\BookDetails;
 use Illuminate\Support\Facades\Route;
@@ -15,19 +16,26 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Books
     Route::prefix('/books')->group(function () {
         Route::post('/', [BookController::class, 'create']);
-        Route::delete('/{book}', [BookController::class, 'destroy']);
+        Route::delete('/{book}', [BookController::class, 'destroy'])
+            ->can('destroy', Book::class);
 
-        // Book details
-        Route::middleware(['can:update,book'])->group(function () {
-            Route::post('/{book}/details', [BookDetailsController::class, 'create']);
-            Route::put('/{book}/details/{detail}', [BookDetailsController::class, 'update']);
+        Route::prefix('/{book}')->middleware(CheckBookAuthorization::class)
+            ->group(function () {
+                // Book details
+                Route::post('/details', [BookDetailsController::class, 'create']);
+                Route::put('/details/{detail}', [BookDetailsController::class, 'update']);
+
+                // Images
+                Route::post('/details/{detail}/images', [BookImageController::class, 'store']);
         });
+//        Route::->group(function () {
+//
+//
+//
+//            Route::put('/{book}/details/{detail}/images/{image}', [BookImageController::class, 'update']);
+//            Route::delete('/{book}/details/{detail}/images/{image}', [BookImageController::class, 'destroy']);
+//        });
     });
-
-    // Images
-    Route::post('/books/images', [BookImageController::class, 'store']);
-    Route::delete('/books/images/{id}', [BookImageController::class, 'destroy']);
-    Route::put('/books/images/{id}', [BookImageController::class, 'update']);
 
     // Book Entity
     Route::post('/books/entity', [BookEntityController::class, 'store']);
