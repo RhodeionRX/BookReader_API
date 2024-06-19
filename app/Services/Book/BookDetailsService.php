@@ -4,6 +4,7 @@ namespace App\Services\Book;
 
 use App\DTO\Book\AddDetailsDTO;
 use App\DTO\Book\UpdateBookDTO;
+use App\Models\BookDetails;
 use App\Repositories\BookDetails\BookDetailsRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -30,16 +31,17 @@ class BookDetailsService
         }
     }
 
-    public function update(int $id, UpdateBookDTO $dto)
+    public function update(
+        BookDetails $detail,
+        UpdateBookDTO $dto
+    )
     {
         DB::beginTransaction();
 
         try {
             $detail = $this->repository->update(
-                $this->repository->find(
-                    id: $id,
-                    withTrashed: true
-                ), $dto
+                $detail,
+                $dto
             );
             $detail->book->setUpdater();
 

@@ -12,13 +12,13 @@ final class AddDetailsDTO
         readonly public string $language,
         readonly public int $book_id
     ) {}
-    public static function fromRequest(StoreBookDetailsRequest $request)
+    public static function fromRequest(int $book_id, StoreBookDetailsRequest $request)
     {
         return new self(
             title: $request->validated('title'),
             description: $request->validated('description'),
             language: $request->validated('language'),
-            book_id: $request->validated('book_id'),
+            book_id: $book_id,
         );
     }
     public static function fromValues(string $title, string|null $description, string $language, int $book_id)

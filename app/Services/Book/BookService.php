@@ -3,6 +3,7 @@
 namespace App\Services\Book;
 
 use App\Filters\BookFilter;
+use App\Models\Book;
 use App\Repositories\Book\IBookRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class BookService
     ) {}
 
     // Books
-    public function getAll(BookFilter $filter)
+    public function index(BookFilter $filter)
     {
         return $this->repository->all(filter: $filter, relations: 'details.images', limit: 10);
     }
@@ -47,8 +48,8 @@ class BookService
         }
     }
 
-    public function destroy(int $id)
+    public function destroy(Book $book)
     {
-        return $this->repository->destroy($id);
+        return $this->repository->destroy($book);
     }
 }

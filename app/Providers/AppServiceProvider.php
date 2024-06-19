@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Book;
+use App\Models\BookDetails;
+use App\Policies\BookDetailsPolicy;
+use App\Policies\BookPolicy;
 use App\Repositories\Book\BookRepository;
 use App\Repositories\Book\IBookRepositoryInterface;
 use App\Repositories\BookDetails\BookDetailsRepository;
@@ -16,6 +20,7 @@ use App\Repositories\Role\IRoleRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\User\IUserRepositoryInterface;
 use App\Repositories\User\UserRepository;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::policy(Book::class, BookPolicy::class);
+        Gate::policy(BookDetails::class, BookDetailsPolicy::class);
     }
 }

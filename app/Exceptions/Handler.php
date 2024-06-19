@@ -21,12 +21,12 @@ class Handler
         ], Response::HTTP_NOT_FOUND);
     }
 
-    public static function handleException(Throwable $e, Request $request): JsonResponse
+    public static function handleException(Throwable $exception): JsonResponse
     {
-        $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+        $status = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
         return response()->json([
             'success' => false,
-            'message' => $e->getMessage() ?: 'An unexpected error occurred.',
+            'message' => $exception->getMessage() ?: 'An unexpected error occurred.',
         ], $status);
     }
 }

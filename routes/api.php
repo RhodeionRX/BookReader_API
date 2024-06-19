@@ -6,15 +6,23 @@ use App\Http\Controllers\Book\BookDetailsController;
 use App\Http\Controllers\BookEntity\BookEntityController;
 use App\Http\Controllers\BookEntity\BookPageController;
 use App\Http\Controllers\User\UserController;
+use App\Models\Book;
+use App\Models\BookDetails;
 use Illuminate\Support\Facades\Route;
 
 // Authenticated users only
 Route::middleware(['auth:sanctum'])->group(function () {
-    // Books and its translations
-    Route::post('/books', [BookController::class, 'create']);
-    Route::post('/books/details', [BookDetailsController::class, 'add']);
-    Route::put('/books/details/{id}', [BookDetailsController::class, 'update']);
-    Route::delete('/books/{id}', [BookController::class, 'destroy']);
+    // Books
+    Route::prefix('/books')->group(function () {
+        Route::post('/', [BookController::class, 'create']);
+        Route::delete('/{book}', [BookController::class, 'destroy']);
+
+        // Book details
+        Route::middleware(['can:update,book'])->group(function () {
+            Route::post('/{book}/details', [BookDetailsController::class, 'create']);
+            Route::put('/{book}/details/{detail}', [BookDetailsController::class, 'update']);
+        });
+    });
 
     // Images
     Route::post('/books/images', [BookImageController::class, 'store']);

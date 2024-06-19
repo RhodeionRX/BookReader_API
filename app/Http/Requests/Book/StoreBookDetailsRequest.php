@@ -25,7 +25,6 @@ class StoreBookDetailsRequest extends FormRequest
                     )
                 ),
             ],
-            'book_id' => ['required', 'integer', 'exists:books,id']
         ];
     }
 

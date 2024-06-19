@@ -9,6 +9,8 @@ use App\Http\Requests\Book\GetAllBooksRequest;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
+use App\Models\Book;
+use App\Models\BookDetails;
 use App\Services\Book\BookDetailsService;
 use App\Services\Book\BookService;
 use Illuminate\Http\JsonResponse;
@@ -20,9 +22,10 @@ class BookController extends Controller
 
     public function create(
         StoreBookRequest $request,
-        BookDetailsService $detailsService): JsonResponse
+        BookDetailsService $detailsService
+    ): JsonResponse
     {
-        $book = $this->service->create($request);
+        $book = $this->service->create();
 
         $localization = $detailsService->create(
             AddDetailsDTO::fromValues(
@@ -33,15 +36,17 @@ class BookController extends Controller
             )
         );
 
-        return BookResource::make(
-            $book
-        )->response()->setStatusCode(Response::HTTP_CREATED);
+        return BookResource::make($book)
+            ->response()
+            ->setStatusCode(
+                Response::HTTP_CREATED
+            );
     }
 
-    public function index(GetAllBooksRequest $request, BookFilter $filter): BookCollection
+    public function index(BookFilter $filter): BookCollection
     {
         return BookCollection::make(
-            $this->service->getAll($filter)
+            $this->service->index($filter)
         );
     }
 
@@ -52,10 +57,14 @@ class BookController extends Controller
         );
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(Book $book): JsonResponse
     {
         return BookResource::make(
-            $this->service->destroy($id)
-        )->response()->setStatusCode(Response::HTTP_ACCEPTED);
+            $this->service->destroy($book)
+        )
+            ->response()
+            ->setStatusCode(
+                Response::HTTP_ACCEPTED
+            );
     }
 }

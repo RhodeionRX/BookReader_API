@@ -58,11 +58,10 @@ class BaseRepository implements IBaseRepositoryInterface
         return $data->findOrFail($id);
     }
 
-    public function destroy(int $id)
+    public function destroy(Model $model)
     {
-        $data = $this->model->findOrFail($id);
-        $data->delete();
+        $model->delete();
 
-        return $data;
+        return $model;
     }
 }
